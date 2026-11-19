@@ -46,8 +46,8 @@ export function CompanyCard({
   return (
     <div
       className={cn(
-        "relative flex w-[380px] flex-col overflow-hidden rounded-2xl border border-white/[0.08] border-t-white/[0.14] bg-[#141026]/75 px-4.5 py-4 backdrop-blur-md select-none",
-        "shadow-[0_10px_30px_rgba(0,0,0,0.5)]",
+        "relative flex w-[350px] flex-col overflow-hidden rounded-xl border border-white/[0.08] border-t-white/[0.12] bg-[#201c36]/75 px-4.5 py-4 backdrop-blur-md select-none",
+        "shadow-[0_10px_25px_rgba(0,0,0,0.4)]",
         className,
       )}
     >

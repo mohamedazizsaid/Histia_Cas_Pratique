@@ -13,9 +13,9 @@
     font-family: var(--font-inter), Inter, system-ui, sans-serif;
     color: #fff;
     background:
-      radial-gradient(ellipse 75% 45% at 50% 8%, #483980 0%, #201944 50%, transparent 100%),
-      radial-gradient(ellipse 75% 45% at 50% 95%, #443679 0%, #1d163d 50%, transparent 100%),
-      #130f28;
+      radial-gradient(ellipse 65% 40% at 50% 0%, #54498c 0%, #342a63 55%, transparent 100%),
+      radial-gradient(ellipse 70% 40% at 50% 100%, #544890 0%, #30265f 55%, transparent 100%),
+      #1d1836;
     background-attachment: fixed;
     letter-spacing: -0.015em;
     min-height: 100vh;

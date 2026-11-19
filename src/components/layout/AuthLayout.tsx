@@ -133,9 +133,9 @@ export function AuthLayout({
       </div>
 
       {/* Center Auth Card */}
-      <div className="relative z-10 flex w-full max-w-[465px] flex-col items-center">
-        <StolosLogo className="mb-7 h-[115px] w-[125px] shrink-0 drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)]" />
-        <div className="w-full rounded-[20px] border border-white/[0.12] bg-[#18142c]/90 px-9 py-8 shadow-[0_0_50px_rgba(110,80,220,0.18),0_20px_60px_rgba(0,0,0,0.65)] backdrop-blur-xl">
+      <div className="relative z-10 flex w-full max-w-[430px] flex-col items-center">
+        <StolosLogo className="mb-7 h-[92px] w-[84px] shrink-0 drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]" />
+        <div className="w-full rounded-xl border border-white/[0.08] border-t-white/[0.12] bg-[#231f3a]/85 p-8 shadow-[0_15px_35px_rgba(0,0,0,0.4),0_0_25px_rgba(100,80,200,0.08)] backdrop-blur-xl">
           {children}
         </div>
       </div>
