@@ -1,0 +1,115 @@
+{
+  "auth": {
+    "welcomeBack": "Welcome back to Stolos!",
+    "welcomeNew": "Welcome to Stolos!",
+    "subtitleLogin": "Sign in to your account",
+    "subtitleRegister": "Create your account",
+    "tabLogin": "Sign in",
+    "tabRegister": "Sign up",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "signIn": "Sign in",
+    "signUp": "Create my account",
+    "forgotPassword": "Forgot password?",
+    "terms": "Terms of use",
+    "privacy": "Privacy policy",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
+  },
+  "verify": {
+    "title": "Confirm your identity",
+    "totpDescription": "Enter the six-digit code displayed in your authentication app.",
+    "emailDescription": "Enter the six-digit code sent to your account's email address. If it expires, request a new code.",
+    "bothDescription": "Enter the six-digit code displayed in your authentication app.",
+    "sendEmailCode": "Send a code by email",
+    "resendCode": "Resend code",
+    "useRecoveryCode": "Use a recovery code",
+    "useVerificationCode": "Use a verification code",
+    "backToLogin": "Back to sign in"
+  },
+  "recovery": {
+    "title": "Enter a recovery code",
+    "placeholder": "Recovery code",
+    "submit": "Validate and sign in",
+    "description": "Use one of the recovery codes saved when activating two-step verification. Each code can only be used once."
+  },
+  "forgotPassword": {
+    "title": "Forgot password?",
+    "description": "Enter your account's email address. We'll send you a link to reset your password.",
+    "submit": "Send the link",
+    "backToLogin": "Back to sign in"
+  },
+  "checkEmail": {
+    "title": "Check your inbox",
+    "description": "If an account is associated with this address, you will receive a link to reset your password. Please check your spam folder.",
+    "resendLink": "Resend the link",
+    "backToLogin": "Back to sign in"
+  },
+  "resetPassword": {
+    "title": "Create a new password",
+    "description": "Choose a new password for your account.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "submit": "Save password",
+    "backToLogin": "Back to sign in"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "You are signed in as",
+    "signOut": "Sign out"
+  },
+  "errors": {
+    "INVALID_EMAIL_OR_PASSWORD": "Invalid email or password.",
+    "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "This email is already in use.",
+    "INVALID_CODE": "Invalid or expired code.",
+    "INVALID_TWO_FACTOR_COOKIE": "Verification session expired. Please sign in again.",
+    "INVALID_TOKEN": "This link is invalid, expired, or has already been used.",
+    "TOO_MANY_REQUESTS": "Too many attempts. Try again in {seconds} seconds.",
+    "PASSWORDS_DO_NOT_MATCH": "Passwords do not match.",
+    "PASSWORD_TOO_SHORT": "Password must be at least 8 characters.",
+    "INVALID_EMAIL": "Invalid email address.",
+    "REQUIRED_FIELD": "This field is required."
+  },
+  "sectors": {
+    "AGRICULTURE": "Agriculture",
+    "AI": "AI",
+    "BIOTECHNOLOGY": "Biotechnology",
+    "CAST": "Broadcasting",
+    "COMMUNICATION": "Communication",
+    "COMPUTER_SCIENCE": "Computer Science",
+    "CONSTRUCTION": "Construction",
+    "CULTURE": "Culture",
+    "DEFENSE": "Defense",
+    "ECOLOGY": "Ecology",
+    "EDUCATION": "Education",
+    "ENERGY": "Energy",
+    "ENTERTAINMENT": "Entertainment",
+    "FINANCE": "Finance",
+    "FOOD": "Food",
+    "GOODS_AND_PRODUCT": "Goods & Products",
+    "HEALTH": "Health",
+    "HOSPITALITY": "Hospitality",
+    "INDUSTRY": "Industry",
+    "INSURANCE": "Insurance",
+    "LEGAL": "Legal",
+    "LOGISTICS": "Logistics",
+    "MARKETING": "Marketing",
+    "MEDIA": "Media",
+    "REAL_ESTATE": "Real Estate",
+    "RETAIL": "Retail",
+    "SECURITY": "Security",
+    "SOFTWARE": "Software",
+    "SPORT": "Sport",
+    "TELECOM": "Telecommunications",
+    "TEXTILE": "Textile",
+    "TOURISM": "Tourism",
+    "TRANSPORT": "Transport"
+  },
+  "companyStatus": {
+    "ACTIVE": "Active",
+    "CLOSED": "Closed",
+    "ACQUIRED": "Acquired",
+    "INACTIVE": "Inactive"
+  }
+}

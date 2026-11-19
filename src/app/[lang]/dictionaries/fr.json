@@ -1,0 +1,115 @@
+{
+  "auth": {
+    "welcomeBack": "Ravi de vous revoir sur Stolos !",
+    "welcomeNew": "Bienvenue sur Stolos !",
+    "subtitleLogin": "Connectez-vous à votre compte",
+    "subtitleRegister": "Créez votre compte",
+    "tabLogin": "Connexion",
+    "tabRegister": "Inscription",
+    "email": "Adresse courriel",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmez le mot de passe",
+    "signIn": "S'inscrire",
+    "signUp": "Créer mon compte",
+    "forgotPassword": "Mot de passe oublié ?",
+    "terms": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
+  },
+  "verify": {
+    "title": "Confirmez votre identité",
+    "totpDescription": "Saisissez le code à six chiffres affiché dans votre application d'authentification.",
+    "emailDescription": "Saisissez le code à six chiffres envoyé à l'adresse courriel de votre compte. S'il expire, demandez un nouveau code.",
+    "bothDescription": "Saisissez le code à six chiffres affiché dans votre application d'authentification.",
+    "sendEmailCode": "Envoyer un code par courriel",
+    "resendCode": "Renvoyer un code",
+    "useRecoveryCode": "Utiliser un code de récupération",
+    "useVerificationCode": "Utiliser un code de vérification",
+    "backToLogin": "Retour à la connexion"
+  },
+  "recovery": {
+    "title": "Saisissez un code de récupération",
+    "placeholder": "Code de récupération",
+    "submit": "Valider et se connecter",
+    "description": "Utilisez l'un des codes de récupération sauvegardés lors de l'activation de la vérification en deux étapes. Chaque code est à usage unique."
+  },
+  "forgotPassword": {
+    "title": "Mot de passe oublié ?",
+    "description": "Saisissez l'adresse courriel de votre compte. Nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "submit": "Envoyer le lien",
+    "backToLogin": "Retour à la connexion"
+  },
+  "checkEmail": {
+    "title": "Vérifiez votre boîte courriel",
+    "description": "Si un compte est associé à cette adresse, vous recevrez un lien pour réinitialiser votre mot de passe. Pensez à vérifier vos courriers indésirables.",
+    "resendLink": "Renvoyer le lien",
+    "backToLogin": "Retour à la connexion"
+  },
+  "resetPassword": {
+    "title": "Créez un nouveau mot de passe",
+    "description": "Choisissez un nouveau mot de passe pour votre compte.",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmez le mot de passe",
+    "submit": "Enregistrer le mot de passe",
+    "backToLogin": "Retour à la connexion"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome": "Vous êtes connecté en tant que",
+    "signOut": "Se déconnecter"
+  },
+  "errors": {
+    "INVALID_EMAIL_OR_PASSWORD": "Adresse courriel ou mot de passe incorrect.",
+    "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL": "Cette adresse courriel est déjà utilisée.",
+    "INVALID_CODE": "Code invalide ou expiré.",
+    "INVALID_TWO_FACTOR_COOKIE": "La session de vérification a expiré. Veuillez vous reconnecter.",
+    "INVALID_TOKEN": "Ce lien est invalide, expiré ou a déjà été utilisé.",
+    "TOO_MANY_REQUESTS": "Trop de tentatives. Réessayez dans {seconds} secondes.",
+    "PASSWORDS_DO_NOT_MATCH": "Les mots de passe ne correspondent pas.",
+    "PASSWORD_TOO_SHORT": "Le mot de passe doit contenir au moins 8 caractères.",
+    "INVALID_EMAIL": "Adresse courriel invalide.",
+    "REQUIRED_FIELD": "Ce champ est requis."
+  },
+  "sectors": {
+    "AGRICULTURE": "Agriculture",
+    "AI": "IA",
+    "BIOTECHNOLOGY": "Biotechnologie",
+    "CAST": "Audiovisuel",
+    "COMMUNICATION": "Communication",
+    "COMPUTER_SCIENCE": "Informatique",
+    "CONSTRUCTION": "Construction",
+    "CULTURE": "Culture",
+    "DEFENSE": "Défense",
+    "ECOLOGY": "Écologie",
+    "EDUCATION": "Éducation",
+    "ENERGY": "Énergie",
+    "ENTERTAINMENT": "Divertissement",
+    "FINANCE": "Finance",
+    "FOOD": "Alimentaire",
+    "GOODS_AND_PRODUCT": "Biens et produits",
+    "HEALTH": "Santé",
+    "HOSPITALITY": "Hôtellerie",
+    "INDUSTRY": "Industrie",
+    "INSURANCE": "Assurance",
+    "LEGAL": "Juridique",
+    "LOGISTICS": "Logistique",
+    "MARKETING": "Marketing",
+    "MEDIA": "Médias",
+    "REAL_ESTATE": "Immobilier",
+    "RETAIL": "Commerce",
+    "SECURITY": "Sécurité",
+    "SOFTWARE": "Logiciel",
+    "SPORT": "Sport",
+    "TELECOM": "Télécommunications",
+    "TEXTILE": "Textile",
+    "TOURISM": "Tourisme",
+    "TRANSPORT": "Transport"
+  },
+  "companyStatus": {
+    "ACTIVE": "Active",
+    "CLOSED": "Fermée",
+    "ACQUIRED": "Vendue",
+    "INACTIVE": "Fermée"
+  }
+}
