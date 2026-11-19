@@ -1,7 +1,3 @@
-// Root layout: minimal shell. The [lang] segment layout handles html/body.
-// This file exists so Next.js has a valid root layout for routes outside [lang]
-// (like /code and /email).
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
