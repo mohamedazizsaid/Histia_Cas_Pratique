@@ -44,14 +44,18 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
   const hasTotp = methods.includes("totp");
   const hasOtp = methods.includes("otp");
 
+  // "otp" = 6-digit code screen, "recovery" = recovery code screen
   const [view, setView] = useState<"otp" | "recovery">("otp");
+  // Which verification mode is active: totp (app code) or email (emailed code)
+  const [activeMode, setActiveMode] = useState<"totp" | "email">(
+    hasTotp ? "totp" : "email",
+  );
   const [serverError, setServerError] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-  const [emailSent, setEmailSent] = useState(false);
+  const [otpKey, setOtpKey] = useState(0); // key to reset OtpInput
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Calculate remaining cooldown from localStorage
   const getRemainingCooldown = useCallback(() => {
     const lastSent = Number(localStorage.getItem(COOLDOWN_KEY) || 0);
     if (!lastSent) return 0;
@@ -59,11 +63,7 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
     return Math.max(0, COOLDOWN_SECONDS - elapsed);
   }, []);
 
-  // Start cooldown timer
-  const startCooldown = useCallback(() => {
-    localStorage.setItem(COOLDOWN_KEY, Date.now().toString());
-    setCooldown(COOLDOWN_SECONDS);
-
+  const startCooldownTimer = useCallback(() => {
     if (cooldownRef.current) clearInterval(cooldownRef.current);
     cooldownRef.current = setInterval(() => {
       const remaining = getRemainingCooldown();
@@ -74,21 +74,22 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
     }, 1000);
   }, [getRemainingCooldown]);
 
-  // On mount: check existing cooldown + auto-send if email-only
+  const startCooldown = useCallback(() => {
+    localStorage.setItem(COOLDOWN_KEY, Date.now().toString());
+    setCooldown(COOLDOWN_SECONDS);
+    startCooldownTimer();
+  }, [startCooldownTimer]);
+
+  // On mount: restore cooldown if exists, auto-send if email-only
   useEffect(() => {
     const remaining = getRemainingCooldown();
     if (remaining > 0) {
       setCooldown(remaining);
-      setEmailSent(true);
-      cooldownRef.current = setInterval(() => {
-        const r = getRemainingCooldown();
-        setCooldown(r);
-        if (r <= 0 && cooldownRef.current) {
-          clearInterval(cooldownRef.current);
-        }
-      }, 1000);
-    } else if (!hasTotp && hasOtp) {
-      // Email-only: auto send code on mount
+      startCooldownTimer();
+    }
+
+    // Email-only: send code automatically
+    if (!hasTotp && hasOtp && remaining <= 0) {
       sendEmailCode();
     }
 
@@ -103,10 +104,11 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
       const result = await authClient.twoFactor.sendOtp();
       if (result.error) {
         if (result.error.status === 429) {
+          // Already rate-limited, start cooldown from server perspective
           startCooldown();
         }
       } else {
-        setEmailSent(true);
+        setActiveMode("email");
         startCooldown();
       }
     } catch {
@@ -120,15 +122,11 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
       setIsVerifying(true);
 
       try {
-        // Determine which verification method to use
-        const verifyFn =
-          !hasTotp && hasOtp
-            ? () => authClient.twoFactor.verifyOtp({ code })
-            : emailSent && !hasTotp
-              ? () => authClient.twoFactor.verifyOtp({ code })
-              : () => authClient.twoFactor.verifyTotp({ code });
-
-        const result = await verifyFn();
+        // Use the right verification method based on active mode
+        const result =
+          activeMode === "email"
+            ? await authClient.twoFactor.verifyOtp({ code })
+            : await authClient.twoFactor.verifyTotp({ code });
 
         if (result.error) {
           const errCode = result.error.code;
@@ -137,23 +135,30 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
           } else {
             setServerError(result.error.message ?? "An error occurred");
           }
+          // Reset OTP input so user can retry
+          setOtpKey((k) => k + 1);
           return;
         }
 
         router.push(`/${lang}/dashboard`);
       } catch {
         setServerError("An unexpected error occurred");
+        setOtpKey((k) => k + 1);
       } finally {
         setIsVerifying(false);
       }
     },
-    [hasTotp, hasOtp, emailSent, dict.errors, lang, router],
+    [activeMode, dict.errors, lang, router],
   );
 
-  // Determine description text
+  // Determine description text based on active mode
   const getDescription = () => {
-    if (!hasTotp && hasOtp) return dict.verify.emailDescription;
-    if (hasTotp && hasOtp) return dict.verify.bothDescription;
+    if (activeMode === "email") {
+      return dict.verify.emailDescription;
+    }
+    if (hasTotp && hasOtp) {
+      return dict.verify.bothDescription;
+    }
     return dict.verify.totpDescription;
   };
 
@@ -169,7 +174,10 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
           dict={dict.recovery}
           backLabel={dict.verify.useVerificationCode}
           backToLoginLabel={dict.verify.backToLogin}
-          onBack={() => setView("otp")}
+          onBack={() => {
+            setView("otp");
+            setOtpKey((k) => k + 1);
+          }}
           errors={dict.errors}
         />
       </AuthLayout>
@@ -187,42 +195,43 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
           {dict.verify.title}
         </h2>
 
-        {/* OTP Input */}
+        {/* OTP Input — key forces remount on retry */}
         <OtpInput
+          key={otpKey}
           onComplete={handleOtpComplete}
           disabled={isVerifying}
           error={!!serverError}
         />
 
-        {/* Error */}
+        {/* Error message */}
         {serverError && (
           <p className="text-center text-sx text-danger">{serverError}</p>
         )}
 
-        {/* Send email code / Resend */}
-        {hasOtp && (
-          <div className="flex flex-col items-center gap-1">
-            {!emailSent && hasTotp && (
-              <button
-                type="button"
-                onClick={sendEmailCode}
-                className="cursor-pointer text-sx font-medium text-primary transition-colors hover:text-white"
-              >
-                {dict.verify.sendEmailCode}
-              </button>
-            )}
-            {emailSent && (
-              <button
-                type="button"
-                onClick={sendEmailCode}
-                disabled={cooldown > 0}
-                className="cursor-pointer text-sx font-medium text-primary transition-colors hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {dict.verify.resendCode}
-                {cooldown > 0 && ` (${cooldown}s)`}
-              </button>
-            )}
-          </div>
+        {/* Send / Resend email code */}
+        {hasOtp && activeMode === "totp" && (
+          /* User hasn't requested email code yet — show "Send email code" link */
+          <button
+            type="button"
+            onClick={sendEmailCode}
+            disabled={cooldown > 0}
+            className="cursor-pointer text-sx font-medium text-primary transition-colors hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {dict.verify.sendEmailCode}
+          </button>
+        )}
+
+        {hasOtp && activeMode === "email" && (
+          /* Email code sent — show resend with cooldown */
+          <button
+            type="button"
+            onClick={sendEmailCode}
+            disabled={cooldown > 0}
+            className="cursor-pointer text-sx font-medium text-primary transition-colors hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {dict.verify.resendCode}
+            {cooldown > 0 && ` (${cooldown}s)`}
+          </button>
         )}
 
         {/* Recovery code link */}
