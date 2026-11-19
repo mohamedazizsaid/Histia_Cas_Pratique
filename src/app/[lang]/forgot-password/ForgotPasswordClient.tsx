@@ -108,47 +108,50 @@ export function ForgotPasswordClient({ lang, dict }: ForgotPasswordClientProps) 
       statusLabels={dict.companyStatus}
     >
       {sent ? (
-        /* Screen matching Image 9 (Check Email) */
-        <div className="flex flex-col items-center">
-          <h1 className="mb-1.5 text-center text-[19px] font-semibold text-white">
-            {dict.checkEmail.title}
-          </h1>
+        /* Vérifiez votre boîte courriel */
+        <div className="flex w-full flex-col items-center gap-10">
+          <header className="flex flex-col items-center gap-3 text-center">
+            <h1 className="text-[28px] leading-[34px] font-semibold text-white">
+              {dict.checkEmail.title}
+            </h1>
+            <p className="max-w-[499px] text-[16px] leading-[24px] font-light text-white/80">
+              {dict.checkEmail.description}
+            </p>
+          </header>
 
-          <p className="mb-6 w-full max-w-[340px] text-center text-[13px] leading-relaxed text-white/50">
-            {dict.checkEmail.description}
-          </p>
-
-          <div className="flex flex-col items-center gap-2.5">
+          <div className="flex flex-col items-center gap-4">
             <button
               type="button"
               onClick={handleResend}
               disabled={cooldown > 0}
-              className="cursor-pointer text-xs text-white/50 transition-colors hover:text-white/75 disabled:cursor-not-allowed disabled:opacity-40"
+              className="link-action cursor-pointer disabled:cursor-not-allowed"
             >
-              {dict.checkEmail.resendLink}
-              {cooldown > 0 && ` (${cooldown}s)`}
+              <span className={cooldown > 0 ? "opacity-50" : undefined}>
+                {dict.checkEmail.resendLink}
+              </span>
+              {cooldown > 0 && (
+                <span className="font-light text-white/80"> ({cooldown}s)</span>
+              )}
             </button>
 
-            <a
-              href={`/${lang}/login`}
-              className="text-xs text-white/50 transition-colors hover:text-white/75"
-            >
+            <a href={`/${lang}/login`} className="link-action">
               {dict.checkEmail.backToLogin}
             </a>
           </div>
         </div>
       ) : (
-        /* Screen matching Image 10 (Forgot Password Form) */
-        <div className="flex flex-col items-center">
-          <h1 className="mb-1.5 text-center text-[19px] font-semibold text-white">
-            {dict.forgotPassword.title}
-          </h1>
+        /* Mot de passe oublié ? */
+        <div className="flex w-full flex-col items-center gap-10">
+          <header className="flex flex-col items-center gap-3 text-center">
+            <h1 className="text-[28px] leading-[34px] font-semibold text-white">
+              {dict.forgotPassword.title}
+            </h1>
+            <p className="max-w-[499px] text-[16px] leading-[24px] font-light text-white/80">
+              {dict.forgotPassword.description}
+            </p>
+          </header>
 
-          <p className="mb-6 w-full max-w-[340px] text-center text-[13px] leading-relaxed text-white/50">
-            {dict.forgotPassword.description}
-          </p>
-
-          <form onSubmit={handleSendLink} className="flex w-full flex-col gap-3.5">
+          <form onSubmit={handleSendLink} className="flex w-full flex-col gap-8">
             <Input
               type="email"
               placeholder={dict.auth.email}
@@ -164,16 +167,13 @@ export function ForgotPasswordClient({ lang, dict }: ForgotPasswordClientProps) 
               size="lg"
               alignment="center"
               isLoading={isLoading}
-              className="mt-2 h-11 w-full rounded-lg text-sm font-medium"
+              className="h-[51px] w-full rounded-[8px] px-5 text-[16px] font-semibold leading-none"
             >
               {dict.forgotPassword.submit}
             </Button>
           </form>
 
-          <a
-            href={`/${lang}/login`}
-            className="mt-4 text-xs text-white/50 transition-colors hover:text-white/75"
-          >
+          <a href={`/${lang}/login`} className="link-action">
             {dict.forgotPassword.backToLogin}
           </a>
         </div>

@@ -16,6 +16,10 @@ interface CompanyCardProps {
   className?: string;
 }
 
+/**
+ * Decorative "Mode Carte" tile — Figma component 1:271.
+ * 552 × 160, black 30%, blur 4px, white halo, radius 10.
+ */
 export function CompanyCard({
   company,
   sectorLabels,
@@ -30,13 +34,12 @@ export function CompanyCard({
   const getStatusBadgeClass = (status: CompanyStatus) => {
     switch (status) {
       case "CLOSED":
-        return "text-[#f87171] bg-[#ef4444]/15 border border-[#ef4444]/25";
-      case "ACQUIRED":
-        return "text-[#f59e0b] bg-[#f59e0b]/15 border border-[#f59e0b]/25";
       case "INACTIVE":
-        return "text-[#9ca3af] bg-[#9ca3af]/15 border border-[#9ca3af]/25";
+        return "bg-[#d46b75]/10 text-[#e75261]";
+      case "ACQUIRED":
+        return "bg-[#ffc20a]/10 text-[#ffc20a]";
       default:
-        return "text-white/60 bg-white/10";
+        return "bg-[#29a844]/10 text-[#29a844]";
     }
   };
 
@@ -46,33 +49,36 @@ export function CompanyCard({
   return (
     <div
       className={cn(
-        "relative flex w-[350px] flex-col overflow-hidden rounded-xl border border-white/[0.08] border-t-white/[0.12] bg-[#201c36]/75 px-4.5 py-4 backdrop-blur-md select-none",
-        "shadow-[0_10px_25px_rgba(0,0,0,0.4)]",
+        "company-card-glass relative flex h-[160px] w-[552px] shrink-0 select-none flex-col gap-4 overflow-hidden rounded-[10px] p-[18px]",
         className,
       )}
     >
-      {/* Background watermark letter */}
+      {/* Oversized company mark, masked by the tile */}
       <div
-        className="pointer-events-none absolute -left-2 -top-6 select-none text-[100px] font-black italic leading-none text-white/[0.04]"
+        className="pointer-events-none absolute -left-[70px] -top-[177px] flex size-[540px] items-center justify-center"
         aria-hidden="true"
       >
-        {initial}
+        <span className="font-serif text-[400px] font-black italic leading-none text-white/[0.045]">
+          {initial}
+        </span>
       </div>
 
-      {/* Header: Avatar + Company Name + Status badge */}
-      <div className="relative z-10 flex items-start justify-between gap-2.5">
-        <div className="flex items-center gap-2.5">
+      {/* Header: avatar + name + status */}
+      <div className="relative z-10 flex h-[38px] items-center justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           <div
             className={cn(
-              "flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-bold shadow-inner",
+              "flex size-[38px] shrink-0 items-center justify-center rounded-full",
               isDoctolib
-                ? "bg-[#183960] text-[#3b93e8]"
-                : "bg-primary-600/60 text-white",
+                ? "bg-[#1b4a7a] text-[#bfe0ff]"
+                : "bg-[#4b408c] text-white",
             )}
           >
-            {initial}
+            <span className="font-serif text-[20px] font-bold italic leading-none">
+              {initial}
+            </span>
           </div>
-          <h3 className="text-[15px] font-bold tracking-tight text-[#e2e4ea]">
+          <h3 className="truncate text-[20px] font-bold leading-[24px] text-white">
             {company.name}
           </h3>
         </div>
@@ -80,7 +86,7 @@ export function CompanyCard({
         {showBadge && (
           <span
             className={cn(
-              "shrink-0 rounded px-2 py-0.5 text-[11px] font-medium",
+              "shrink-0 rounded-[4px] px-2 py-1 text-[12px] font-medium leading-[16px]",
               getStatusBadgeClass(company.status),
             )}
           >
@@ -90,12 +96,12 @@ export function CompanyCard({
       </div>
 
       {/* Description */}
-      <p className="relative z-10 mt-1.5 line-clamp-2 text-[12px] leading-snug text-white/50">
+      <p className="relative z-10 line-clamp-2 max-w-[378px] text-[13px] font-normal leading-[18px] text-white">
         {company.description}
       </p>
 
-      {/* Sector tags — inline icon + label matching Figma */}
-      <div className="relative z-10 mt-2.5 flex flex-wrap items-center gap-3.5 text-xs text-white/50">
+      {/* Sectors */}
+      <div className="relative z-10 flex items-center gap-[26px] text-white">
         {company.sectors.map((sector) => {
           const config = sectorMap[sector];
           if (!config) return null;
@@ -103,8 +109,10 @@ export function CompanyCard({
           const label = sectorLabels[sector] ?? sector;
           return (
             <div key={sector} className="flex items-center gap-1.5">
-              <Icon className="size-3.5 opacity-60" />
-              <span className="text-[11.5px] font-normal">{label}</span>
+              <Icon className="size-2 shrink-0" />
+              <span className="text-[13px] font-light leading-[16px] tracking-[0.02em]">
+                {label}
+              </span>
             </div>
           );
         })}

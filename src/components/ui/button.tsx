@@ -20,7 +20,8 @@ const buttonVariants = cva(
         ghostLight: "text-primary hover:text-white",
         ghostMedium: "text-[#C1B9EA] hover:text-white",
         ghostDark: "text-primary-200 hover:text-white",
-        primary: "bg-[#5e4fb0] hover:bg-[#6c5dbf] active:bg-[#52449e] text-white shadow-sm",
+        primary:
+          "bg-[#5e4fb0] hover:bg-[#6c5dbf] active:bg-[#52449e] text-white/90 shadow-sm",
         danger:
           "rounded-lg bg-danger-100 px-4 py-3 font-normal text-danger transition-none hover:bg-danger-500 hover:text-white",
       },

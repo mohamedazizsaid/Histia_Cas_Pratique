@@ -184,63 +184,66 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
       sectorLabels={dict.sectors}
       statusLabels={dict.companyStatus}
     >
-      <div className="flex flex-col items-center">
-        <h1 className="mb-6 text-center text-[19px] font-semibold text-white">
+      <div className="flex w-full flex-col items-center gap-10">
+        <h1 className="text-center text-[28px] leading-[34px] font-semibold text-white">
           {dict.verify.title}
         </h1>
 
-        {/* OTP Input with 6 boxes matching Figma */}
-        <OtpInput
-          key={otpKey}
-          onComplete={handleOtpComplete}
-          disabled={isVerifying}
-          error={!!serverError}
-        />
+        {/* OTP cells + actions */}
+        <div className="flex flex-col items-center gap-3">
+          <OtpInput
+            key={otpKey}
+            onComplete={handleOtpComplete}
+            disabled={isVerifying}
+            error={!!serverError}
+          />
 
-        {/* Error message */}
-        {serverError && (
-          <p className="mt-3 text-center text-xs text-danger">{serverError}</p>
-        )}
-
-        {/* Links section */}
-        <div className="mt-5 flex flex-col items-center gap-2">
-          {/* Send email code link (when app mode active and email supported) */}
-          {hasOtp && activeMode === "totp" && (
-            <button
-              type="button"
-              onClick={sendEmailCode}
-              disabled={cooldown > 0}
-              className="cursor-pointer text-xs text-white/50 transition-colors hover:text-white/75 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {dict.verify.sendEmailCode}
-            </button>
+          {serverError && (
+            <p className="max-w-[372px] text-center text-[13px] leading-[18px] text-danger">
+              {serverError}
+            </p>
           )}
 
-          {/* Resend email code link (when email mode active) */}
-          {hasOtp && activeMode === "email" && (
+          <div className="flex flex-col items-center gap-1">
+            {/* Send an email code while the app code is active */}
+            {hasOtp && activeMode === "totp" && (
+              <button
+                type="button"
+                onClick={sendEmailCode}
+                className="link-action cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {dict.verify.sendEmailCode}
+              </button>
+            )}
+
+            {/* Resend the email code, with the 30s cooldown */}
+            {hasOtp && activeMode === "email" && (
+              <button
+                type="button"
+                onClick={sendEmailCode}
+                disabled={cooldown > 0}
+                className="link-action cursor-pointer disabled:cursor-not-allowed"
+              >
+                <span className={cooldown > 0 ? "opacity-50" : undefined}>
+                  {dict.verify.resendCode}
+                </span>
+                {cooldown > 0 && (
+                  <span className="font-light text-white/80"> ({cooldown}s)</span>
+                )}
+              </button>
+            )}
+
             <button
               type="button"
-              onClick={sendEmailCode}
-              disabled={cooldown > 0}
-              className="cursor-pointer text-xs text-white/50 transition-colors hover:text-white/75 disabled:cursor-not-allowed disabled:opacity-40"
+              onClick={() => setView("recovery")}
+              className="link-action cursor-pointer"
             >
-              {dict.verify.resendCode}
-              {cooldown > 0 && ` (${cooldown}s)`}
+              {dict.verify.useRecoveryCode}
             </button>
-          )}
-
-          {/* Recovery code link */}
-          <button
-            type="button"
-            onClick={() => setView("recovery")}
-            className="cursor-pointer text-xs text-white/50 transition-colors hover:text-white/75"
-          >
-            {dict.verify.useRecoveryCode}
-          </button>
+          </div>
         </div>
 
-        {/* Description text matching Figma Images 3, 4, 6 */}
-        <p className="mt-6 w-full max-w-[340px] text-center text-xs leading-relaxed text-white/40">
+        <p className="max-w-[499px] text-center text-[16px] leading-[24px] font-light text-white/80">
           {getDescription()}
         </p>
       </div>

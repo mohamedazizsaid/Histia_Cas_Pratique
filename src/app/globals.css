@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Design tokens and the glass surface, copied from the Stolos web app.
+ * Design tokens copied from the Stolos Figma file.
  *
  * Careful: the --spacing-* names below (xs, s, sm, m, l, xl, 2xl, 3xl, 4xl) also feed Tailwind's
  * sizing utilities, so `max-w-xl` is 1.5rem here, not 36rem. Use explicit sizes such as `max-w-[36rem]`.
@@ -12,17 +12,27 @@
   body {
     font-family: var(--font-inter), Inter, system-ui, sans-serif;
     color: #fff;
-    background:
-      radial-gradient(ellipse 65% 40% at 50% 0%, #54498c 0%, #342a63 55%, transparent 100%),
-      radial-gradient(ellipse 70% 40% at 50% 100%, #544890 0%, #30265f 55%, transparent 100%),
-      #1d1836;
-    background-attachment: fixed;
-    letter-spacing: -0.015em;
+    background-color: #1c1835;
+    letter-spacing: 0;
     min-height: 100vh;
+  }
+
+  ::selection {
+    background: #5e4fb0;
+    color: #fff;
   }
 }
 
 @theme {
+  /* Brand palette — Figma "1. Design tokens" */
+  --color-page: #1c1835;
+  --color-brand: #5e4fb0;
+  --color-brand-hover: #6c5dbf;
+  --color-brand-active: #52449e;
+  --color-tab: #7e73bf;
+  --color-link: #9e96cf;
+  --color-footer-link: #dfdcef;
+
   --color-primary: #e1c3ff;
   --color-primary-50: #dfdcef;
   --color-primary-100: #bfb9df;
@@ -45,7 +55,7 @@
   --color-success-700: color-mix(in oklab, var(--color-success) 80%, transparent);
   --color-success-800: color-mix(in oklab, var(--color-success) 90%, transparent);
 
-  --color-danger: #dc3848;
+  --color-danger: #e75261;
   --color-danger-50: color-mix(in oklab, var(--color-danger) 10%, transparent);
   --color-danger-100: color-mix(in oklab, var(--color-danger) 20%, transparent);
   --color-danger-200: color-mix(in oklab, var(--color-danger) 30%, transparent);
@@ -131,6 +141,120 @@
   --glass-background: rgb(0 0 0 / 30%);
   /* base colour of the page: anything opaque laid over it matches */
   --app-background: #272149;
+
+  /* Scale applied to the decorative company fleet (drawn on a 1920 × 1080 grid). */
+  --fleet-scale: 1;
+}
+
+@media (max-width: 1799px) {
+  :root {
+    --fleet-scale: 0.9;
+  }
+}
+
+@media (max-width: 1599px) {
+  :root {
+    --fleet-scale: 0.78;
+  }
+}
+
+@media (max-width: 1399px) {
+  :root {
+    --fleet-scale: 0.68;
+  }
+}
+
+@media (max-width: 1199px) {
+  :root {
+    --fleet-scale: 0.58;
+  }
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --fleet-scale: 0.5;
+  }
+}
+
+/* Page background: #1c1835 with the purple glows of the Figma "Background" layer. */
+@utility auth-background {
+  background:
+    radial-gradient(
+      ellipse 55% 42% at 50% -4%,
+      rgba(128, 113, 204, 0.52) 0%,
+      rgba(90, 76, 158, 0.3) 45%,
+      rgba(28, 24, 53, 0) 72%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 50% 108%,
+      rgba(110, 95, 185, 0.3) 0%,
+      rgba(28, 24, 53, 0) 70%
+    ),
+    radial-gradient(
+      ellipse 90% 80% at 50% 50%,
+      rgba(58, 48, 105, 0.35) 0%,
+      rgba(28, 24, 53, 0) 100%
+    ),
+    #1c1835;
+}
+
+/* The 1920 × 1080 grid on which the eight decorative company cards are placed. */
+@utility fleet-stage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform: translateX(-50%) scale(var(--fleet-scale, 1));
+  transform-origin: top center;
+}
+
+/* Central glass card — Figma: white 3%, blur 4px, radius 12, 0 30px 40px rgba(0,0,0,.3). */
+@utility auth-card {
+  background-color: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 30px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Decorative "Mode Carte" tile — Figma: black 30%, blur 4px, white halo, radius 10. */
+@utility company-card-glass {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 30px 2px rgba(255, 255, 255, 0.15);
+}
+
+/* Shared type styles */
+@utility title-page {
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility subtitle-page {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@utility link-action {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #9e96cf;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+@utility footer-legal {
+  font-size: 14px;
+  line-height: 164%;
+  font-weight: 400;
+  letter-spacing: -0.02em;
 }
 
 @utility glassmorphism {

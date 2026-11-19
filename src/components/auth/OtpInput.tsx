@@ -10,6 +10,10 @@ interface OtpInputProps {
   error?: boolean;
 }
 
+/**
+ * OTP_Cell — Figma: 52 × 80, 1px white border, radius 4, digit Inter Semi Bold 32px.
+ * Six cells are laid out with a 12px gap (372 × 80 total).
+ */
 export function OtpInput({ length = 6, onComplete, disabled = false, error = false }: OtpInputProps) {
   const [values, setValues] = useState<string[]>(Array(length).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
@@ -95,7 +99,7 @@ export function OtpInput({ length = 6, onComplete, disabled = false, error = fal
   );
 
   return (
-    <div className="flex justify-center gap-2.5">
+    <div className="flex justify-center gap-2 sm:gap-3">
       {Array.from({ length }).map((_, index) => (
         <input
           key={index}
@@ -112,11 +116,11 @@ export function OtpInput({ length = 6, onComplete, disabled = false, error = fal
           onPaste={handlePaste}
           onFocus={(e) => e.target.select()}
           className={cn(
-            "flex h-15 w-11 sm:w-12 items-center justify-center rounded-lg border bg-white/[0.04] text-center text-xl font-semibold text-white outline-none transition-all placeholder:text-white/20",
+            "flex h-16 w-10 items-center justify-center rounded-[4px] border bg-transparent text-center text-[32px] font-semibold leading-none text-white outline-none transition-all placeholder:text-white/20 sm:h-[80px] sm:w-[52px]",
             error
               ? "border-danger focus:border-danger"
-              : "border-white/20 hover:border-white/30 focus:border-white/50 focus:bg-white/[0.07]",
-            disabled && "opacity-50 cursor-not-allowed",
+              : "border-white/90 hover:border-white focus:border-white focus:bg-white/[0.04]",
+            disabled && "cursor-not-allowed opacity-50",
           )}
           aria-label={`Digit ${index + 1}`}
         />

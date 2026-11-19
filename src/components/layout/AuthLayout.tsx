@@ -21,19 +21,23 @@ interface AuthLayoutProps {
   statusLabels: Record<string, string>;
 }
 
-// Background card fleet placement — staggered to match Image 2 / Figma
-const leftCardConfigs = [
-  { top: "4%", className: "left-[-220px] 2xl:left-[-110px]", opacity: 0.82 },
-  { top: "28%", className: "left-[-170px] 2xl:left-[-60px]", opacity: 0.8 },
-  { top: "52%", className: "left-[-120px] 2xl:left-[-20px]", opacity: 0.8 },
-  { top: "76%", className: "left-[-180px] 2xl:left-[-80px]", opacity: 0.78 },
+/**
+ * The eight decorative "Mode Carte" tiles are placed on the Figma 1920 × 1080 grid.
+ * The whole grid is scaled down with --fleet-scale so the composition keeps its
+ * proportions on smaller desktop screens.
+ */
+const leftCardPositions = [
+  { left: -136, top: 37 },
+  { left: -283, top: 297 },
+  { left: -114, top: 567 },
+  { left: -207, top: 836 },
 ];
 
-const rightCardConfigs = [
-  { top: "5%", className: "right-10 2xl:right-24", opacity: 0.85 },
-  { top: "29%", className: "right-[-150px] 2xl:right-[-50px]", opacity: 0.8 },
-  { top: "53%", className: "right-8 2xl:right-20", opacity: 0.85 },
-  { top: "77%", className: "right-[-130px] 2xl:right-[-30px]", opacity: 0.8 },
+const rightCardPositions = [
+  { left: 1485, top: 46 },
+  { left: 1634, top: 306 },
+  { left: 1524, top: 579 },
+  { left: 1639, top: 827 },
 ];
 
 export function AuthLayout({
@@ -54,16 +58,18 @@ export function AuthLayout({
     status: c.status,
   }));
 
-  // Match the layout order in Image 2:
-  // Left top: "Fermée" (FinStar), Left bottom: "Vendue" (AgriSmart)
-  // Right top: Doctolib
-  const closedCompany = localizedCompanies.find((c) => c.status === "CLOSED" || c.status === "INACTIVE");
+  const closedCompany = localizedCompanies.find(
+    (c) => c.status === "CLOSED" || c.status === "INACTIVE",
+  );
   const acquiredCompany = localizedCompanies.find((c) => c.status === "ACQUIRED");
-  const doctolib = localizedCompanies.find((c) => c.name.toLowerCase().includes("doctolib"));
+  const doctolib = localizedCompanies.find((c) =>
+    c.name.toLowerCase().includes("doctolib"),
+  );
   const otherCompanies = localizedCompanies.filter(
     (c) => c !== closedCompany && c !== acquiredCompany && c !== doctolib,
   );
 
+  // Left column, top to bottom: closed, neutral, neutral, acquired (Vendue).
   const leftCompanies: CompanyData[] = [
     closedCompany ?? localizedCompanies[2] ?? localizedCompanies[0],
     otherCompanies[0] ?? localizedCompanies[1],
@@ -79,63 +85,57 @@ export function AuthLayout({
   ].filter(Boolean) as CompanyData[];
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-8">
-      {/* Background fleet overlay — Left Column */}
+    <div className="auth-background relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden px-4 py-10">
+      {/* Decorative company fleet — 552 × 160 cards at 30% opacity */}
       <div
-        className="pointer-events-none absolute inset-y-0 left-0 hidden w-[500px] xl:block"
+        className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block"
         aria-hidden="true"
       >
-        {leftCompanies.map((company, i) => {
-          const cfg = leftCardConfigs[i % leftCardConfigs.length];
-          return (
-            <div
-              key={`left-${company.name}-${i}`}
-              className={`absolute transition-all duration-300 ${cfg.className}`}
-              style={{
-                top: cfg.top,
-                opacity: cfg.opacity,
-              }}
-            >
-              <CompanyCard
-                company={company}
-                sectorLabels={sectorLabels}
-                statusLabels={statusLabels}
-              />
-            </div>
-          );
-        })}
+        <div className="fleet-stage">
+          {leftCompanies.map((company, i) => {
+            const position = leftCardPositions[i % leftCardPositions.length];
+            return (
+              <div
+                key={`left-${company.name}-${i}`}
+                className="absolute opacity-30"
+                style={{ left: position.left, top: position.top }}
+              >
+                <CompanyCard
+                  company={company}
+                  sectorLabels={sectorLabels}
+                  statusLabels={statusLabels}
+                />
+              </div>
+            );
+          })}
+
+          {rightCompanies.map((company, i) => {
+            const position = rightCardPositions[i % rightCardPositions.length];
+            return (
+              <div
+                key={`right-${company.name}-${i}`}
+                className="absolute opacity-30"
+                style={{ left: position.left, top: position.top }}
+              >
+                <CompanyCard
+                  company={company}
+                  sectorLabels={sectorLabels}
+                  statusLabels={statusLabels}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Background fleet overlay — Right Column */}
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[500px] xl:block"
-        aria-hidden="true"
-      >
-        {rightCompanies.map((company, i) => {
-          const cfg = rightCardConfigs[i % rightCardConfigs.length];
-          return (
-            <div
-              key={`right-${company.name}-${i}`}
-              className={`absolute transition-all duration-300 ${cfg.className}`}
-              style={{
-                top: cfg.top,
-                opacity: cfg.opacity,
-              }}
-            >
-              <CompanyCard
-                company={company}
-                sectorLabels={sectorLabels}
-                statusLabels={statusLabels}
-              />
-            </div>
-          );
-        })}
-      </div>
+      {/* Logo + central card */}
+      <div className="relative z-10 flex w-full flex-col items-center gap-6 min-[950px]:-translate-y-0 min-[950px]:gap-6">
+        <StolosLogo
+          className="w-auto shrink-0"
+          style={{ height: "clamp(100px, 13vh, 140px)" }}
+        />
 
-      {/* Center Auth Card */}
-      <div className="relative z-10 flex w-full max-w-[430px] flex-col items-center">
-        <StolosLogo className="mb-7 h-[92px] w-[84px] shrink-0 drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]" />
-        <div className="w-full rounded-xl border border-white/[0.08] border-t-white/[0.12] bg-[#231f3a]/85 p-8 shadow-[0_15px_35px_rgba(0,0,0,0.4),0_0_25px_rgba(100,80,200,0.08)] backdrop-blur-xl">
+        <div className="auth-card w-full max-w-[595px] rounded-[12px] border border-white/[0.06] p-4 sm:p-6 min-[1200px]:p-8">
           {children}
         </div>
       </div>

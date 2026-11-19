@@ -61,18 +61,18 @@ export function RecoveryCodeForm({
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="mb-6 text-center text-[19px] font-semibold text-white">
+    <div className="flex w-full flex-col items-center gap-10">
+      <h1 className="text-center text-[28px] leading-[34px] font-semibold text-white">
         {dict.title}
       </h1>
 
-      {serverError && (
-        <div className="mb-4 w-full rounded-lg border border-danger/30 bg-danger/10 px-3.5 py-2.5 text-center text-xs text-danger">
-          {serverError}
-        </div>
-      )}
+      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-8">
+        {serverError && (
+          <div className="rounded-[8px] border border-danger/30 bg-danger/10 px-4 py-2.5 text-center text-[13px] leading-[18px] text-[#e75261]">
+            {serverError}
+          </div>
+        )}
 
-      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-3.5">
         <Input
           type="text"
           placeholder={dict.placeholder}
@@ -87,7 +87,7 @@ export function RecoveryCodeForm({
           size="lg"
           alignment="center"
           isLoading={isLoading}
-          className="mt-2 h-11 w-full rounded-lg text-sm font-medium"
+          className="h-[51px] w-full rounded-[8px] px-5 text-[16px] font-semibold leading-none"
         >
           {dict.submit}
         </Button>
@@ -97,13 +97,13 @@ export function RecoveryCodeForm({
       <button
         type="button"
         onClick={onBack}
-        className="mt-4 cursor-pointer text-xs text-white/50 transition-colors hover:text-white/75"
+        className="link-action cursor-pointer text-center"
       >
         {backLabel}
       </button>
 
-      {/* Description below link matching Image 5 */}
-      <p className="mt-4 w-full max-w-[340px] text-center text-xs leading-relaxed text-white/40">
+      {/* Description */}
+      <p className="max-w-[499px] text-center text-[16px] leading-[24px] font-light text-white/80">
         {dict.description}
       </p>
     </div>

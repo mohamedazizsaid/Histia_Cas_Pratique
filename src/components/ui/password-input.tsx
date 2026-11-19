@@ -14,12 +14,12 @@ export type PasswordInputProps = Omit<
 
 const EyeIcon = () => (
   <svg
-    width="18"
-    height="18"
+    width="16"
+    height="16"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.8"
+    strokeWidth="1.4"
     strokeLinecap="round"
     strokeLinejoin="round"
   >
@@ -30,12 +30,12 @@ const EyeIcon = () => (
 
 const EyeOffIcon = () => (
   <svg
-    width="18"
-    height="18"
+    width="16"
+    height="16"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.8"
+    strokeWidth="1.4"
     strokeLinecap="round"
     strokeLinejoin="round"
   >
@@ -46,6 +46,9 @@ const EyeOffIcon = () => (
   </svg>
 );
 
+/**
+ * MotDePasse_Field — same shell as Text_Field, with a 16 × 16 eye toggle.
+ */
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
   (
     {
@@ -66,10 +69,10 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       <div className={cn("flex w-full flex-col gap-1.5", className)}>
         <div
           className={cn(
-            "flex h-11 w-full items-center gap-2 rounded-lg border bg-white/[0.04] px-3.5 transition-colors",
+            "flex h-[49px] w-full items-center gap-2 rounded-[8px] border bg-white/5 px-5 transition-colors",
             errorMessage
-              ? "border-danger focus-within:border-danger focus-within:ring-1 focus-within:ring-danger/30"
-              : "border-white/15 hover:border-white/25 focus-within:border-primary-300 focus-within:ring-1 focus-within:ring-primary-300/30",
+              ? "border-danger focus-within:border-danger focus-within:ring-1 focus-within:ring-danger/25"
+              : "border-white/40 hover:border-white/55 focus-within:border-white/70 focus-within:bg-white/[0.07] focus-within:ring-1 focus-within:ring-white/20",
             disabled && "cursor-not-allowed opacity-50",
           )}
         >
@@ -79,7 +82,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             type={isVisible ? "text" : "password"}
             placeholder={placeholderText}
             disabled={disabled}
-            className="min-w-0 flex-1 bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
+            className="min-w-0 flex-1 bg-transparent text-[14px] leading-[20px] font-normal text-white placeholder:text-white/80 focus:outline-none"
           />
 
           <button
@@ -87,15 +90,13 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             onClick={() => setIsVisible((v) => !v)}
             disabled={disabled}
             aria-label={isVisible ? visibilityLabels.hide : visibilityLabels.show}
-            className="flex size-7 items-center justify-center text-white/40 transition-colors hover:text-white/70 focus:outline-none"
+            className="flex size-5 shrink-0 items-center justify-center text-white/80 transition-colors hover:text-white focus:outline-none"
           >
             {isVisible ? <EyeIcon /> : <EyeOffIcon />}
           </button>
         </div>
 
-        {errorMessage && (
-          <p className="text-xs text-danger">{errorMessage}</p>
-        )}
+        {errorMessage && <p className="text-[12px] text-danger">{errorMessage}</p>}
       </div>
     );
   },

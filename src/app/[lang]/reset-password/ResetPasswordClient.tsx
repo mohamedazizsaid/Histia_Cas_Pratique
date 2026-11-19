@@ -64,17 +64,14 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
         sectorLabels={dict.sectors}
         statusLabels={dict.companyStatus}
       >
-        <div className="flex flex-col items-center">
-          <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
+        <div className="flex w-full flex-col items-center gap-10">
+          <h1 className="text-center text-[28px] leading-[34px] font-semibold text-white">
             {dict.resetPassword.title}
           </h1>
-          <p className="mb-6 text-center text-xs text-danger">
+          <p className="text-center text-[16px] leading-[24px] font-light text-danger">
             {dict.errors.INVALID_TOKEN}
           </p>
-          <a
-            href={`/${lang}/login`}
-            className="text-xs text-white/50 transition-colors hover:text-white/75"
-          >
+          <a href={`/${lang}/login`} className="link-action">
             {dict.resetPassword.backToLogin}
           </a>
         </div>
@@ -89,22 +86,21 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
         sectorLabels={dict.sectors}
         statusLabels={dict.companyStatus}
       >
-        <div className="flex flex-col items-center">
-          <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-success-500/20 text-success">
+        <div className="flex w-full flex-col items-center gap-10">
+          <div className="flex size-12 items-center justify-center rounded-full bg-success-500/20 text-success">
             ✓
           </div>
-          <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
-            {dict.resetPassword.title}
-          </h1>
-          <p className="mb-6 text-center text-sm text-white/60">
-            {lang === "fr"
-              ? "Votre mot de passe a été réinitialisé avec succès."
-              : "Your password has been reset successfully."}
-          </p>
-          <a
-            href={`/${lang}/login`}
-            className="text-xs text-white/50 transition-colors hover:text-white/75"
-          >
+          <div className="flex flex-col items-center gap-3 text-center">
+            <h1 className="text-[28px] leading-[34px] font-semibold text-white">
+              {dict.resetPassword.title}
+            </h1>
+            <p className="text-[16px] leading-[24px] font-light text-white/80">
+              {lang === "fr"
+                ? "Votre mot de passe a été réinitialisé avec succès."
+                : "Your password has been reset successfully."}
+            </p>
+          </div>
+          <a href={`/${lang}/login`} className="link-action">
             {dict.resetPassword.backToLogin}
           </a>
         </div>
@@ -149,45 +145,46 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
       sectorLabels={dict.sectors}
       statusLabels={dict.companyStatus}
     >
-      <div className="flex flex-col items-center">
-        <h1 className="mb-1.5 text-center text-[19px] font-semibold text-white">
-          {dict.resetPassword.title}
-        </h1>
+      <div className="flex w-full flex-col items-center gap-10">
+        <header className="flex flex-col items-center gap-3 text-center">
+          <h1 className="text-[28px] leading-[34px] font-semibold text-white">
+            {dict.resetPassword.title}
+          </h1>
+          <p className="max-w-[499px] text-[16px] leading-[24px] font-light text-white/80">
+            {dict.resetPassword.description}
+          </p>
+        </header>
 
-        <p className="mb-6 w-full max-w-[340px] text-center text-[13px] leading-relaxed text-white/50">
-          {dict.resetPassword.description}
-        </p>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-8">
+          {serverError && (
+            <div className="rounded-[8px] border border-danger/30 bg-danger/10 px-4 py-2.5 text-center text-[13px] leading-[18px] text-[#e75261]">
+              {serverError}
+            </div>
+          )}
 
-        {serverError && (
-          <div className="mb-4 w-full rounded-lg border border-danger/30 bg-danger/10 px-3.5 py-2.5 text-center text-xs text-danger">
-            {serverError}
+          <div className="flex w-full flex-col gap-4">
+            <PasswordInput
+              placeholder={dict.resetPassword.newPassword}
+              visibilityLabels={{
+                show: dict.auth.showPassword,
+                hide: dict.auth.hidePassword,
+              }}
+              {...register("password")}
+              errorMessage={
+                errors.password ? dict.errors.PASSWORD_TOO_SHORT : undefined
+              }
+            />
+
+            <PasswordInput
+              placeholder={dict.resetPassword.confirmPassword}
+              visibilityLabels={{
+                show: dict.auth.showPassword,
+                hide: dict.auth.hidePassword,
+              }}
+              {...register("confirmPassword")}
+              errorMessage={errors.confirmPassword?.message}
+            />
           </div>
-        )}
-
-        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-3.5">
-          <PasswordInput
-            placeholder={dict.resetPassword.newPassword}
-            visibilityLabels={{
-              show: dict.auth.showPassword,
-              hide: dict.auth.hidePassword,
-            }}
-            {...register("password")}
-            errorMessage={
-              errors.password
-                ? dict.errors.PASSWORD_TOO_SHORT
-                : undefined
-            }
-          />
-
-          <PasswordInput
-            placeholder={dict.resetPassword.confirmPassword}
-            visibilityLabels={{
-              show: dict.auth.showPassword,
-              hide: dict.auth.hidePassword,
-            }}
-            {...register("confirmPassword")}
-            errorMessage={errors.confirmPassword?.message}
-          />
 
           <Button
             type="submit"
@@ -195,16 +192,13 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
             size="lg"
             alignment="center"
             isLoading={isLoading}
-            className="mt-2 h-11 w-full rounded-lg text-sm font-medium"
+            className="h-[51px] w-full rounded-[8px] px-5 text-[16px] font-semibold leading-none"
           >
             {dict.resetPassword.submit}
           </Button>
         </form>
 
-        <a
-          href={`/${lang}/login`}
-          className="mt-4 text-xs text-white/50 transition-colors hover:text-white/75"
-        >
+        <a href={`/${lang}/login`} className="link-action">
           {dict.resetPassword.backToLogin}
         </a>
       </div>

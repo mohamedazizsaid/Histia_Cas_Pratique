@@ -1,24 +1,28 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 
 export function StolosLogo({
   className = "h-[92px] w-[84px]",
+  style,
   priority = true,
 }: {
   className?: string;
+  style?: CSSProperties;
   priority?: boolean;
 }) {
   return (
     <Image
-      src="/assets/stolos-logo.png"
+      src="/assets/stolos-logo-tight.png"
       alt="Stolos"
-      width={132}
-      height={121}
+      width={67}
+      height={76}
       priority={priority}
+      style={style}
       className={`${className} object-contain`}
     />
   );
 }
-  
+
 // 2D Minimalist Stolos Icon for Email & Small Headers
 export function StolosIconMinimal({ className = "h-6 w-6" }: { className?: string }) {
   return (

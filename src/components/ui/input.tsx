@@ -9,6 +9,10 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
   isError?: boolean;
 };
 
+/**
+ * Text_Field — Figma: 49px high, padding 16px 20px, white 5% background,
+ * 1px white 40% border, radius 8, Inter Regular 14px.
+ */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -26,16 +30,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     <div className={cn("flex w-full min-w-0 flex-col", containerClassName)}>
       <div
         className={cn(
-          "flex h-11 w-full min-w-0 items-center gap-2 rounded-lg border bg-white/[0.04] px-3.5 transition-colors",
+          "flex h-[49px] w-full min-w-0 items-center gap-2 rounded-[8px] border border-white/40 bg-white/5 px-5 transition-colors",
           isError
-            ? "border-danger focus-within:border-danger focus-within:ring-1 focus-within:ring-danger/30"
-            : "border-white/15 hover:border-white/25 focus-within:border-primary-300 focus-within:ring-1 focus-within:ring-primary-300/30",
+            ? "border-danger focus-within:border-danger focus-within:ring-1 focus-within:ring-danger/25"
+            : "hover:border-white/55 focus-within:border-white/70 focus-within:bg-white/[0.07] focus-within:ring-1 focus-within:ring-white/20",
           disabled && "cursor-not-allowed opacity-50",
           className,
         )}
       >
         {icon && (
-          <div className="flex size-5 shrink-0 items-center justify-center text-white/40">
+          <div className="flex size-5 shrink-0 items-center justify-center text-white/70">
             {icon}
           </div>
         )}
@@ -43,13 +47,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           disabled={disabled}
           className={cn(
-            "min-w-0 flex-1 bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none",
+            "min-w-0 flex-1 bg-transparent text-[14px] leading-[20px] font-normal text-white placeholder:text-white/80 focus:outline-none",
             inputClassName,
           )}
           {...props}
         />
         {rightElement && (
-          <div className="flex size-5 shrink-0 items-center justify-center text-white/40">
+          <div className="flex size-5 shrink-0 items-center justify-center text-white/70">
             {rightElement}
           </div>
         )}
