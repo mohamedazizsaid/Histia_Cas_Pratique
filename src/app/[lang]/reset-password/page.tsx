@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getDictionaryByLocale, hasLocale } from "../dictionaries";
+import { getDictionary, hasLocale } from "../dictionaries";
 import { ResetPasswordClient } from "./ResetPasswordClient";
 
 export default async function ResetPasswordPage({
@@ -8,7 +8,7 @@ export default async function ResetPasswordPage({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
 
-  const dict = await getDictionaryByLocale(lang);
+  const dict = await getDictionary(lang);
 
   return <ResetPasswordClient lang={lang} dict={dict} />;
 }

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getDictionaryByLocale, hasLocale } from "../dictionaries";
+import { getDictionary, hasLocale } from "../dictionaries";
 import { LoginPageClient } from "./LoginPageClient";
 
 export default async function LoginPage({
@@ -8,7 +8,7 @@ export default async function LoginPage({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
 
-  const dict = await getDictionaryByLocale(lang);
+  const dict = await getDictionary(lang);
 
   return <LoginPageClient lang={lang} dict={dict} />;
 }

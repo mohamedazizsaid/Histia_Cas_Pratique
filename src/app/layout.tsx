@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const headersList = await headers();
-  const locale = headersList.get("x-locale") || "fr";
+  const h = await headers();
+  const locale = h.get("x-locale") || "fr";
 
   return (
     <html lang={locale} className={`${inter.variable} h-full antialiased`}>

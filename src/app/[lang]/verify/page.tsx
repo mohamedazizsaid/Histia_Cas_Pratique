@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getDictionaryByLocale, hasLocale } from "../dictionaries";
+import { getDictionary, hasLocale } from "../dictionaries";
 import { VerifyPageClient } from "./VerifyPageClient";
 
 export default async function VerifyPage({
@@ -8,7 +8,7 @@ export default async function VerifyPage({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
 
-  const dict = await getDictionaryByLocale(lang);
+  const dict = await getDictionary(lang);
 
   return <VerifyPageClient lang={lang} dict={dict} />;
 }

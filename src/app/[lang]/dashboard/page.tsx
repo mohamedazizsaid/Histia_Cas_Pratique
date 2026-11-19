@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { getDictionaryByLocale, hasLocale } from "../dictionaries";
+import { getDictionary, hasLocale } from "../dictionaries";
 import { DashboardClient } from "./DashboardClient";
 
 export default async function DashboardPage({
@@ -19,7 +19,7 @@ export default async function DashboardPage({
     redirect(`/${lang}/login`);
   }
 
-  const dict = await getDictionaryByLocale(lang);
+  const dict = await getDictionary(lang);
 
   return (
     <DashboardClient
