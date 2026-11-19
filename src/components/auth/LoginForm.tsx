@@ -1,0 +1,147 @@
+"use client";
+
+import { useForm } from "react-hook-form";
+import { z } from "zod/v4";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Button } from "@/components/ui/button";
+
+const loginSchema = z.object({
+  email: z.email(),
+  password: z.string().min(1),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
+interface LoginFormProps {
+  lang: string;
+  dict: {
+    email: string;
+    password: string;
+    signIn: string;
+    forgotPassword: string;
+    terms: string;
+    privacy: string;
+    showPassword: string;
+    hidePassword: string;
+  };
+  errors: Record<string, string>;
+}
+
+export function LoginForm({ lang, dict, errors: errorMessages }: LoginFormProps) {
+  const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    setServerError(null);
+    setIsLoading(true);
+
+    try {
+      const result = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (result.error) {
+        const code = result.error.code;
+        if (code && code in errorMessages) {
+          setServerError(errorMessages[code]);
+        } else if (result.error.status === 429) {
+          setServerError(errorMessages.TOO_MANY_REQUESTS?.replace("{seconds}", "10") ?? "Too many requests");
+        } else {
+          setServerError(result.error.message ?? "An error occurred");
+        }
+        return;
+      }
+
+      // Check if 2FA is required
+      if (result.data && "twoFactorRedirect" in result.data && result.data.twoFactorRedirect) {
+        const methods = (result.data as { twoFactorMethods?: string[] }).twoFactorMethods ?? [];
+        router.push(`/${lang}/verify?methods=${methods.join(",")}`);
+        return;
+      }
+
+      // Successfully signed in
+      router.push(`/${lang}/dashboard`);
+    } catch {
+      setServerError("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      {/* Server error */}
+      {serverError && (
+        <div className="rounded-sm bg-danger/10 px-4 py-2.5 text-sx text-danger">
+          {serverError}
+        </div>
+      )}
+
+      {/* Email */}
+      <Input
+        type="email"
+        placeholder={dict.email}
+        className="rounded-sm border border-white/40 bg-black/10 px-4 py-2.5"
+        inputClassName="h-7 text-lg placeholder:text-white/40"
+        {...register("email")}
+        aria-invalid={!!errors.email}
+      />
+      {errors.email && (
+        <p className="text-xs text-danger">{errorMessages.INVALID_EMAIL}</p>
+      )}
+
+      {/* Password */}
+      <PasswordInput
+        label={dict.password}
+        visibilityLabels={{ show: dict.showPassword, hide: dict.hidePassword }}
+        {...register("password")}
+        errorMessage={errors.password ? errorMessages.REQUIRED_FIELD : undefined}
+      />
+
+      {/* Forgot password */}
+      <div className="flex justify-end">
+        <a
+          href={`/${lang}/forgot-password`}
+          className="text-xs-plus text-white/50 transition-colors hover:text-white/70"
+        >
+          {dict.forgotPassword}
+        </a>
+      </div>
+
+      {/* Submit */}
+      <Button
+        type="submit"
+        variant="primary"
+        size="lg"
+        alignment="center"
+        textSize="base"
+        isLoading={isLoading}
+        className="mt-2 w-full"
+      >
+        {dict.signIn}
+      </Button>
+
+      {/* Footer */}
+      <div className="mt-2 flex justify-center gap-2 text-xs text-white/40">
+        <span className="cursor-pointer hover:text-white/60">{dict.terms}</span>
+        <span>|</span>
+        <span className="cursor-pointer hover:text-white/60">{dict.privacy}</span>
+      </div>
+    </form>
+  );
+}
