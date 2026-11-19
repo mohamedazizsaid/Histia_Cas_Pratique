@@ -62,7 +62,7 @@ export function RecoveryCodeForm({
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="mb-6 text-center text-xl font-bold tracking-tight text-white">
+      <h1 className="mb-6 text-center text-[19px] font-semibold text-white">
         {dict.title}
       </h1>
 
@@ -103,7 +103,7 @@ export function RecoveryCodeForm({
       </button>
 
       {/* Description below link matching Image 5 */}
-      <p className="mt-4 max-w-xs text-center text-xs leading-relaxed text-white/40">
+      <p className="mt-4 w-full max-w-[340px] text-center text-xs leading-relaxed text-white/40">
         {dict.description}
       </p>
     </div>

@@ -42,7 +42,7 @@ export function DashboardClient({
           {name.charAt(0).toUpperCase()}
         </div>
 
-        <h1 className="text-xl font-bold tracking-tight text-white">{dict.title}</h1>
+        <h1 className="text-[19px] font-semibold text-white">{dict.title}</h1>
 
         <div className="text-center">
           <p className="text-sm text-white/50">{dict.welcome}</p>

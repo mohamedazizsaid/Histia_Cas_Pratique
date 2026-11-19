@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale } from "../dictionaries";
 import { VerifyPageClient } from "./VerifyPageClient";
@@ -10,5 +11,9 @@ export default async function VerifyPage({
 
   const dict = await getDictionary(lang);
 
-  return <VerifyPageClient lang={lang} dict={dict} />;
+  return (
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <VerifyPageClient lang={lang} dict={dict} />
+    </Suspense>
+  );
 }

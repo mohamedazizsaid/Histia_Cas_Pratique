@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -10,12 +9,9 @@ export const metadata: Metadata = {
   description: "Stolos — Authentication",
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const h = await headers();
-  const locale = h.get("x-locale") || "fr";
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={locale} className={`${inter.variable} h-full antialiased`}>
+    <html lang="fr" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

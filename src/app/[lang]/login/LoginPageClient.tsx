@@ -43,10 +43,10 @@ export function LoginPageClient({ lang, dict }: LoginPageClientProps) {
       statusLabels={dict.companyStatus}
     >
       {/* Title */}
-      <h1 className="mb-1 text-center text-xl font-bold tracking-tight text-white">
+      <h1 className="mb-1 text-center text-[19px] font-semibold text-white">
         {activeTab === "login" ? dict.auth.welcomeBack : dict.auth.welcomeNew}
       </h1>
-      <p className="mb-6 text-center text-sm text-white/50">
+      <p className="mb-6 text-center text-[13px] text-white/50 leading-relaxed">
         {activeTab === "login"
           ? dict.auth.subtitleLogin
           : dict.auth.subtitleRegister}

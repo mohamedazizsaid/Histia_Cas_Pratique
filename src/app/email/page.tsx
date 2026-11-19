@@ -9,13 +9,18 @@ import { StolosIconMinimal } from "@/components/layout/StolosLogo";
 async function EmailContent() {
   await connection();
 
-  const latestReset = await prisma.devMail.findFirst({
-    where: { kind: "PASSWORD_RESET" },
-    orderBy: { createdAt: "desc" },
-  });
-
-  const resetUrl =
-    latestReset?.content ?? "https://app.example.com/reset-password?token=preview";
+  let resetUrl = "https://app.example.com/reset-password?token=preview";
+  try {
+    const latestReset = await prisma.devMail.findFirst({
+      where: { kind: "PASSWORD_RESET" },
+      orderBy: { createdAt: "desc" },
+    });
+    if (latestReset?.content) {
+      resetUrl = latestReset.content;
+    }
+  } catch {
+    // Fallback if DB is offline
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
@@ -38,7 +43,7 @@ async function EmailContent() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center">
-          <h1 className="mb-6 text-center text-xl font-bold tracking-tight text-white">
+          <h1 className="mb-6 text-center text-[19px] font-semibold text-white">
             Réinitialisez votre mot de passe
           </h1>
 
@@ -51,7 +56,7 @@ async function EmailContent() {
           </a>
 
           {/* Body text paragraphs */}
-          <div className="mb-6 max-w-sm space-y-3 text-center text-xs leading-relaxed text-white/60">
+          <div className="mb-6 w-full max-w-[360px] space-y-3 text-center text-xs leading-relaxed text-white/60">
             <p>
               Nous avons reçu une demande de réinitialisation du mot de passe de
               votre compte Stolos. Ce lien expire dans une heure.
@@ -63,7 +68,7 @@ async function EmailContent() {
           </div>
 
           {/* Direct link instructions */}
-          <div className="max-w-sm text-center">
+          <div className="w-full max-w-[360px] text-center">
             <p className="text-xs text-white/40">
               Ou copiez ce lien dans votre navigateur :
             </p>

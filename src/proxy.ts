@@ -7,10 +7,12 @@ const defaultLocale = "fr";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip internal paths, API routes, static files, and special pages
+  // Skip internal paths, API routes, static assets, and special pages
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
+    pathname.startsWith("/assets") ||
+    pathname.includes(".") ||
     pathname === "/code" ||
     pathname === "/email" ||
     pathname === "/favicon.ico"
@@ -39,6 +41,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api).*)",
+    "/((?!_next/static|_next/image|favicon.ico|assets|api|.*\\..*).*)",
   ],
 };

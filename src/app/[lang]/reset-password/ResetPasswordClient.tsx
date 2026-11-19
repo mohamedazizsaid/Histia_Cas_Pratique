@@ -150,11 +150,11 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
       statusLabels={dict.companyStatus}
     >
       <div className="flex flex-col items-center">
-        <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
+        <h1 className="mb-1.5 text-center text-[19px] font-semibold text-white">
           {dict.resetPassword.title}
         </h1>
 
-        <p className="mb-6 max-w-xs text-center text-sm leading-relaxed text-white/50">
+        <p className="mb-6 w-full max-w-[340px] text-center text-[13px] leading-relaxed text-white/50">
           {dict.resetPassword.description}
         </p>
 

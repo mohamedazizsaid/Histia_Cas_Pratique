@@ -1,12 +1,16 @@
 import { headers } from "next/headers";
+import { connection } from "next/server";
 import { redirect, notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getDictionary, hasLocale } from "../dictionaries";
 import { DashboardClient } from "./DashboardClient";
 
+export const instant = false;
+
 export default async function DashboardPage({
   params,
 }: PageProps<"/[lang]/dashboard">) {
+  await connection();
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
 

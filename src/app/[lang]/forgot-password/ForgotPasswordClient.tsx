@@ -110,11 +110,11 @@ export function ForgotPasswordClient({ lang, dict }: ForgotPasswordClientProps) 
       {sent ? (
         /* Screen matching Image 9 (Check Email) */
         <div className="flex flex-col items-center">
-          <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
+          <h1 className="mb-1.5 text-center text-[19px] font-semibold text-white">
             {dict.checkEmail.title}
           </h1>
 
-          <p className="mb-6 max-w-xs text-center text-sm leading-relaxed text-white/50">
+          <p className="mb-6 w-full max-w-[340px] text-center text-[13px] leading-relaxed text-white/50">
             {dict.checkEmail.description}
           </p>
 
@@ -140,11 +140,11 @@ export function ForgotPasswordClient({ lang, dict }: ForgotPasswordClientProps) 
       ) : (
         /* Screen matching Image 10 (Forgot Password Form) */
         <div className="flex flex-col items-center">
-          <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
+          <h1 className="mb-1.5 text-center text-[19px] font-semibold text-white">
             {dict.forgotPassword.title}
           </h1>
 
-          <p className="mb-6 max-w-xs text-center text-sm leading-relaxed text-white/50">
+          <p className="mb-6 w-full max-w-[340px] text-center text-[13px] leading-relaxed text-white/50">
             {dict.forgotPassword.description}
           </p>
 

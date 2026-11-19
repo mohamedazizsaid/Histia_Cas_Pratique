@@ -185,7 +185,7 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
       statusLabels={dict.companyStatus}
     >
       <div className="flex flex-col items-center">
-        <h1 className="mb-6 text-center text-xl font-bold tracking-tight text-white">
+        <h1 className="mb-6 text-center text-[19px] font-semibold text-white">
           {dict.verify.title}
         </h1>
 
@@ -240,7 +240,7 @@ export function VerifyPageClient({ lang, dict }: VerifyPageClientProps) {
         </div>
 
         {/* Description text matching Figma Images 3, 4, 6 */}
-        <p className="mt-6 max-w-xs text-center text-xs leading-relaxed text-white/40">
+        <p className="mt-6 w-full max-w-[340px] text-center text-xs leading-relaxed text-white/40">
           {getDescription()}
         </p>
       </div>
