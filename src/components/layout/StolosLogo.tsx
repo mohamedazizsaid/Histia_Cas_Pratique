@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 export function StolosLogo({
-  className = "h-20 w-20",
+  className = "h-[110px] w-[120px]",
   priority = true,
 }: {
   className?: string;

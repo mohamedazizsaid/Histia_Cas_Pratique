@@ -113,11 +113,11 @@ export function LoginForm({ lang, dict, errors: errorMessages }: LoginFormProps)
         errorMessage={errors.password ? errorMessages.REQUIRED_FIELD : undefined}
       />
 
-      {/* Forgot password — aligned left to match Figma Image 7 */}
+      {/* Forgot password — aligned left to match Figma */}
       <div className="flex justify-start pt-0.5">
         <a
           href={`/${lang}/forgot-password`}
-          className="text-xs text-white/50 transition-colors hover:text-white/75"
+          className="text-[12.5px] text-white/50 transition-colors hover:text-white/75"
         >
           {dict.forgotPassword}
         </a>
@@ -130,13 +130,13 @@ export function LoginForm({ lang, dict, errors: errorMessages }: LoginFormProps)
         size="lg"
         alignment="center"
         isLoading={isLoading}
-        className="mt-2 h-11 w-full rounded-lg text-sm font-medium"
+        className="mt-2 h-11 w-full rounded-lg text-[14.5px] font-medium"
       >
         {dict.signIn}
       </Button>
 
       {/* Footer */}
-      <div className="mt-4 flex items-center justify-center gap-2 text-xs text-white/40">
+      <div className="mt-5 flex items-center justify-center gap-2 text-xs text-white/40">
         <span className="cursor-pointer transition-colors hover:text-white/60">{dict.terms}</span>
         <span>|</span>
         <span className="cursor-pointer transition-colors hover:text-white/60">{dict.privacy}</span>

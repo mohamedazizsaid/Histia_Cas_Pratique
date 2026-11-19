@@ -30,11 +30,11 @@ export function CompanyCard({
   const getStatusBadgeClass = (status: CompanyStatus) => {
     switch (status) {
       case "CLOSED":
-        return "text-[#f87171] bg-[#ef4444]/15";
+        return "text-[#f87171] bg-[#ef4444]/15 border border-[#ef4444]/25";
       case "ACQUIRED":
-        return "text-[#f59e0b] bg-[#f59e0b]/15";
+        return "text-[#f59e0b] bg-[#f59e0b]/15 border border-[#f59e0b]/25";
       case "INACTIVE":
-        return "text-[#9ca3af] bg-[#9ca3af]/15";
+        return "text-[#9ca3af] bg-[#9ca3af]/15 border border-[#9ca3af]/25";
       default:
         return "text-white/60 bg-white/10";
     }
@@ -46,14 +46,14 @@ export function CompanyCard({
   return (
     <div
       className={cn(
-        "relative flex w-[335px] flex-col overflow-hidden rounded-xl border border-white/[0.08] border-t-white/[0.14] bg-[#161327]/65 px-4 py-3.5 backdrop-blur-md select-none",
-        "shadow-[0_0_24px_rgba(150,130,235,0.12),0_10px_25px_rgba(0,0,0,0.5)]",
+        "relative flex w-[380px] flex-col overflow-hidden rounded-2xl border border-white/[0.08] border-t-white/[0.14] bg-[#141026]/75 px-4.5 py-4 backdrop-blur-md select-none",
+        "shadow-[0_10px_30px_rgba(0,0,0,0.5)]",
         className,
       )}
     >
       {/* Background watermark letter */}
       <div
-        className="pointer-events-none absolute -left-2 -top-6 select-none text-[100px] font-black italic leading-none text-white/[0.035]"
+        className="pointer-events-none absolute -left-2 -top-6 select-none text-[100px] font-black italic leading-none text-white/[0.04]"
         aria-hidden="true"
       >
         {initial}
@@ -64,9 +64,9 @@ export function CompanyCard({
         <div className="flex items-center gap-2.5">
           <div
             className={cn(
-              "flex size-8.5 shrink-0 items-center justify-center rounded-full text-sm font-bold italic shadow-inner",
+              "flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-bold shadow-inner",
               isDoctolib
-                ? "bg-[#173a5e] text-[#3b93e8]"
+                ? "bg-[#183960] text-[#3b93e8]"
                 : "bg-primary-600/60 text-white",
             )}
           >
@@ -80,7 +80,7 @@ export function CompanyCard({
         {showBadge && (
           <span
             className={cn(
-              "shrink-0 rounded-md px-2 py-0.5 text-[11px] font-normal",
+              "shrink-0 rounded px-2 py-0.5 text-[11px] font-medium",
               getStatusBadgeClass(company.status),
             )}
           >
@@ -95,7 +95,7 @@ export function CompanyCard({
       </p>
 
       {/* Sector tags — inline icon + label matching Figma */}
-      <div className="relative z-10 mt-2.5 flex flex-wrap items-center gap-3 text-xs text-white/50">
+      <div className="relative z-10 mt-2.5 flex flex-wrap items-center gap-3.5 text-xs text-white/50">
         {company.sectors.map((sector) => {
           const config = sectorMap[sector];
           if (!config) return null;

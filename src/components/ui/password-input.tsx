@@ -69,7 +69,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             "flex h-11 w-full items-center gap-2 rounded-lg border bg-white/[0.04] px-3.5 transition-colors",
             errorMessage
               ? "border-danger focus-within:border-danger focus-within:ring-1 focus-within:ring-danger/30"
-              : "border-white/15 hover:border-white/25 focus-within:border-white/40 focus-within:ring-1 focus-within:ring-white/20",
+              : "border-white/15 hover:border-white/25 focus-within:border-primary-300 focus-within:ring-1 focus-within:ring-primary-300/30",
             disabled && "cursor-not-allowed opacity-50",
           )}
         >
@@ -89,7 +89,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             aria-label={isVisible ? visibilityLabels.hide : visibilityLabels.show}
             className="flex size-7 items-center justify-center text-white/40 transition-colors hover:text-white/70 focus:outline-none"
           >
-            {isVisible ? <EyeOffIcon /> : <EyeIcon />}
+            {isVisible ? <EyeIcon /> : <EyeOffIcon />}
           </button>
         </div>
 

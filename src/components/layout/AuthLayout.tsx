@@ -21,19 +21,19 @@ interface AuthLayoutProps {
   statusLabels: Record<string, string>;
 }
 
-// Background card fleet placement — staggered / décalées to match Figma natural layout
+// Background card fleet placement — staggered to match Image 2 / Figma
 const leftCardConfigs = [
-  { top: "4%", className: "left-[-40px] 2xl:left-10", opacity: 0.35 },
-  { top: "27%", className: "left-[-120px] 2xl:left-[-30px]", opacity: 0.32 },
-  { top: "50%", className: "left-[-30px] 2xl:left-12", opacity: 0.28 },
-  { top: "74%", className: "left-[-110px] 2xl:left-[-20px]", opacity: 0.24 },
+  { top: "4%", className: "left-[-220px] 2xl:left-[-110px]", opacity: 0.82 },
+  { top: "28%", className: "left-[-170px] 2xl:left-[-60px]", opacity: 0.8 },
+  { top: "52%", className: "left-[-120px] 2xl:left-[-20px]", opacity: 0.8 },
+  { top: "76%", className: "left-[-180px] 2xl:left-[-80px]", opacity: 0.78 },
 ];
 
 const rightCardConfigs = [
-  { top: "4%", className: "right-[-40px] 2xl:right-10", opacity: 0.35 },
-  { top: "27%", className: "right-[-120px] 2xl:right-[-30px]", opacity: 0.32 },
-  { top: "50%", className: "right-[-30px] 2xl:right-12", opacity: 0.28 },
-  { top: "74%", className: "right-[-140px] 2xl:right-[-40px]", opacity: 0.24 },
+  { top: "5%", className: "right-10 2xl:right-24", opacity: 0.85 },
+  { top: "29%", className: "right-[-150px] 2xl:right-[-50px]", opacity: 0.8 },
+  { top: "53%", className: "right-8 2xl:right-20", opacity: 0.85 },
+  { top: "77%", className: "right-[-130px] 2xl:right-[-30px]", opacity: 0.8 },
 ];
 
 export function AuthLayout({
@@ -54,14 +54,35 @@ export function AuthLayout({
     status: c.status,
   }));
 
-  const leftCompanies = localizedCompanies.slice(0, 4);
-  const rightCompanies = localizedCompanies.slice(4, 8);
+  // Match the layout order in Image 2:
+  // Left top: "Fermée" (FinStar), Left bottom: "Vendue" (AgriSmart)
+  // Right top: Doctolib
+  const closedCompany = localizedCompanies.find((c) => c.status === "CLOSED" || c.status === "INACTIVE");
+  const acquiredCompany = localizedCompanies.find((c) => c.status === "ACQUIRED");
+  const doctolib = localizedCompanies.find((c) => c.name.toLowerCase().includes("doctolib"));
+  const otherCompanies = localizedCompanies.filter(
+    (c) => c !== closedCompany && c !== acquiredCompany && c !== doctolib,
+  );
+
+  const leftCompanies: CompanyData[] = [
+    closedCompany ?? localizedCompanies[2] ?? localizedCompanies[0],
+    otherCompanies[0] ?? localizedCompanies[1],
+    otherCompanies[1] ?? localizedCompanies[3],
+    acquiredCompany ?? localizedCompanies[4] ?? localizedCompanies[0],
+  ].filter(Boolean) as CompanyData[];
+
+  const rightCompanies: CompanyData[] = [
+    doctolib ?? localizedCompanies[0],
+    otherCompanies[2] ?? localizedCompanies[5] ?? localizedCompanies[0],
+    otherCompanies[3] ?? localizedCompanies[6] ?? localizedCompanies[0],
+    otherCompanies[4] ?? localizedCompanies[7] ?? localizedCompanies[0],
+  ].filter(Boolean) as CompanyData[];
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-8">
-      {/* Background fleet overlay — Left Column (décalées / staggered) */}
+      {/* Background fleet overlay — Left Column */}
       <div
-        className="pointer-events-none absolute inset-y-0 left-0 hidden w-[450px] xl:block"
+        className="pointer-events-none absolute inset-y-0 left-0 hidden w-[500px] xl:block"
         aria-hidden="true"
       >
         {leftCompanies.map((company, i) => {
@@ -85,9 +106,9 @@ export function AuthLayout({
         })}
       </div>
 
-      {/* Background fleet overlay — Right Column (décalées / staggered) */}
+      {/* Background fleet overlay — Right Column */}
       <div
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[450px] xl:block"
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[500px] xl:block"
         aria-hidden="true"
       >
         {rightCompanies.map((company, i) => {
@@ -111,10 +132,10 @@ export function AuthLayout({
         })}
       </div>
 
-      {/* Center Auth Card with subtle luminous aura */}
-      <div className="relative z-10 flex w-full max-w-[430px] flex-col items-center">
-        <StolosLogo className="mb-6 h-20 w-20 shrink-0 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
-        <div className="w-full rounded-2xl border border-white/[0.08] border-t-white/[0.14] bg-[#18142c]/85 p-8 shadow-[0_0_35px_rgba(140,120,230,0.12),0_25px_60px_rgba(0,0,0,0.65)] backdrop-blur-xl">
+      {/* Center Auth Card */}
+      <div className="relative z-10 flex w-full max-w-[465px] flex-col items-center">
+        <StolosLogo className="mb-7 h-[115px] w-[125px] shrink-0 drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)]" />
+        <div className="w-full rounded-[20px] border border-white/[0.12] bg-[#18142c]/90 px-9 py-8 shadow-[0_0_50px_rgba(110,80,220,0.18),0_20px_60px_rgba(0,0,0,0.65)] backdrop-blur-xl">
           {children}
         </div>
       </div>

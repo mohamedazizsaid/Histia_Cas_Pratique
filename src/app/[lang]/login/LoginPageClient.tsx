@@ -43,41 +43,43 @@ export function LoginPageClient({ lang, dict }: LoginPageClientProps) {
       statusLabels={dict.companyStatus}
     >
       {/* Title */}
-      <h1 className="mb-1 text-center text-[19px] font-semibold text-white">
+      <h1 className="mb-1 text-center text-[22px] font-semibold tracking-tight text-white">
         {activeTab === "login" ? dict.auth.welcomeBack : dict.auth.welcomeNew}
       </h1>
-      <p className="mb-6 text-center text-[13px] text-white/50 leading-relaxed">
+      <p className="mb-6 text-center text-[13px] text-white/55 leading-relaxed">
         {activeTab === "login"
           ? dict.auth.subtitleLogin
           : dict.auth.subtitleRegister}
       </p>
 
-      {/* Tabs matching Figma Images 7 & 8 */}
-      <div className="mb-6 flex justify-center gap-8 border-b border-white/10">
-        <button
-          type="button"
-          onClick={() => setActiveTab("login")}
-          className={cn(
-            "cursor-pointer pb-2.5 text-sm transition-colors -mb-[1px]",
-            activeTab === "login"
-              ? "border-b-2 border-[#7e73bf] font-medium text-white"
-              : "font-normal text-white/50 hover:text-white/75",
-          )}
-        >
-          {dict.auth.tabLogin}
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab("register")}
-          className={cn(
-            "cursor-pointer pb-2.5 text-sm transition-colors -mb-[1px]",
-            activeTab === "register"
-              ? "border-b-2 border-[#7e73bf] font-medium text-white"
-              : "font-normal text-white/50 hover:text-white/75",
-          )}
-        >
-          {dict.auth.tabRegister}
-        </button>
+      {/* Tabs matching Figma */}
+      <div className="mb-6 flex justify-center">
+        <div className="flex gap-8 border-b border-white/10">
+          <button
+            type="button"
+            onClick={() => setActiveTab("login")}
+            className={cn(
+              "cursor-pointer pb-2.5 text-sm transition-colors -mb-[1px] px-1",
+              activeTab === "login"
+                ? "border-b-2 border-[#7e73bf] font-medium text-white"
+                : "font-normal text-white/50 hover:text-white/75",
+            )}
+          >
+            {dict.auth.tabLogin}
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("register")}
+            className={cn(
+              "cursor-pointer pb-2.5 text-sm transition-colors -mb-[1px] px-1",
+              activeTab === "register"
+                ? "border-b-2 border-[#7e73bf] font-medium text-white"
+                : "font-normal text-white/50 hover:text-white/75",
+            )}
+          >
+            {dict.auth.tabRegister}
+          </button>
+        </div>
       </div>
 
       {/* Forms */}
