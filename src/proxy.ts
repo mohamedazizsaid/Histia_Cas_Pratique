@@ -25,7 +25,11 @@ export function proxy(request: NextRequest) {
   );
 
   if (pathnameHasLocale) {
-    return NextResponse.next();
+    // Extract locale and set it as a header for the root layout
+    const locale = pathname.split("/")[1];
+    const response = NextResponse.next();
+    response.headers.set("x-locale", locale);
+    return response;
   }
 
   // Redirect to the default locale
@@ -35,6 +39,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api|code|email).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api).*)",
   ],
 };
