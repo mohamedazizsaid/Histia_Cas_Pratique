@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
 const buttonVariants = cva(
   cn(
     "inline-flex items-center gap-2 cursor-pointer whitespace-nowrap",
-    "rounded-md font-medium transition-all duration-200",
-    "disabled:opacity-30 disabled:cursor-not-allowed",
+    "rounded-lg font-medium transition-all duration-200 justify-center",
+    "disabled:opacity-40 disabled:cursor-not-allowed",
   ),
   {
     variants: {
@@ -20,9 +20,9 @@ const buttonVariants = cva(
         ghostLight: "text-primary hover:text-white",
         ghostMedium: "text-[#C1B9EA] hover:text-white",
         ghostDark: "text-primary-200 hover:text-white",
-        primary: "bg-primary-400",
+        primary: "bg-[#5e4fb0] hover:bg-[#6c5dbf] active:bg-[#52449e] text-white shadow-sm",
         danger:
-          "rounded-sm bg-danger-100 px-4 py-3 font-normal text-danger transition-none hover:bg-danger-500 hover:text-white",
+          "rounded-lg bg-danger-100 px-4 py-3 font-normal text-danger transition-none hover:bg-danger-500 hover:text-white",
       },
       size: {
         fit: "w-fit h-fit",

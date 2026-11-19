@@ -59,7 +59,6 @@ export function ForgotPasswordClient({ lang, dict }: ForgotPasswordClientProps) 
     }, 1000);
   }, [getRemainingCooldown]);
 
-  // Check existing cooldown on mount
   useEffect(() => {
     const remaining = getRemainingCooldown();
     if (remaining > 0) {
@@ -91,54 +90,16 @@ export function ForgotPasswordClient({ lang, dict }: ForgotPasswordClientProps) 
       setSent(true);
       startCooldown();
     } catch {
-      // The API always returns success whether the account exists or not
+      // API always succeeds whether account exists or not
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleResend = () => {
-    if (cooldown > 0) return;
+    if (cooldown > 0 || !email) return;
     handleSendLink();
   };
-
-  if (sent) {
-    return (
-      <AuthLayout
-        lang={lang}
-        sectorLabels={dict.sectors}
-        statusLabels={dict.companyStatus}
-      >
-        <div className="flex flex-col items-center gap-6">
-          <h2 className="text-center text-m font-semibold">
-            {dict.checkEmail.title}
-          </h2>
-          <p className="max-w-sm text-center text-sx leading-relaxed text-white/60">
-            {dict.checkEmail.description}
-          </p>
-
-          {/* Resend link with cooldown */}
-          <button
-            type="button"
-            onClick={handleResend}
-            disabled={cooldown > 0}
-            className="cursor-pointer text-sx font-semibold text-white transition-colors hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {dict.checkEmail.resendLink}
-            {cooldown > 0 && ` (${cooldown}s)`}
-          </button>
-
-          {/* Back to login */}
-          <a
-            href={`/${lang}/login`}
-            className="text-sx text-white/50 transition-colors hover:text-white/70"
-          >
-            {dict.checkEmail.backToLogin}
-          </a>
-        </div>
-      </AuthLayout>
-    );
-  }
 
   return (
     <AuthLayout
@@ -146,46 +107,77 @@ export function ForgotPasswordClient({ lang, dict }: ForgotPasswordClientProps) 
       sectorLabels={dict.sectors}
       statusLabels={dict.companyStatus}
     >
-      <div className="flex flex-col items-center gap-6">
-        <h2 className="text-center text-m font-semibold">
-          {dict.forgotPassword.title}
-        </h2>
-        <p className="max-w-sm text-center text-sx leading-relaxed text-white/60">
-          {dict.forgotPassword.description}
-        </p>
+      {sent ? (
+        /* Screen matching Image 9 (Check Email) */
+        <div className="flex flex-col items-center">
+          <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
+            {dict.checkEmail.title}
+          </h1>
 
-        <form onSubmit={handleSendLink} className="flex w-full flex-col gap-4">
-          <Input
-            type="email"
-            placeholder={dict.auth.email}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="rounded-sm border border-white/40 bg-black/10 px-4 py-2.5"
-            inputClassName="h-7 text-lg placeholder:text-white/40"
-            autoFocus
-          />
+          <p className="mb-6 max-w-xs text-center text-sm leading-relaxed text-white/50">
+            {dict.checkEmail.description}
+          </p>
 
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            alignment="center"
-            textSize="base"
-            isLoading={isLoading}
-            className="w-full"
+          <div className="flex flex-col items-center gap-2.5">
+            <button
+              type="button"
+              onClick={handleResend}
+              disabled={cooldown > 0}
+              className="cursor-pointer text-xs text-white/50 transition-colors hover:text-white/75 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {dict.checkEmail.resendLink}
+              {cooldown > 0 && ` (${cooldown}s)`}
+            </button>
+
+            <a
+              href={`/${lang}/login`}
+              className="text-xs text-white/50 transition-colors hover:text-white/75"
+            >
+              {dict.checkEmail.backToLogin}
+            </a>
+          </div>
+        </div>
+      ) : (
+        /* Screen matching Image 10 (Forgot Password Form) */
+        <div className="flex flex-col items-center">
+          <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
+            {dict.forgotPassword.title}
+          </h1>
+
+          <p className="mb-6 max-w-xs text-center text-sm leading-relaxed text-white/50">
+            {dict.forgotPassword.description}
+          </p>
+
+          <form onSubmit={handleSendLink} className="flex w-full flex-col gap-3.5">
+            <Input
+              type="email"
+              placeholder={dict.auth.email}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoFocus
+            />
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              alignment="center"
+              isLoading={isLoading}
+              className="mt-2 h-11 w-full rounded-lg text-sm font-medium"
+            >
+              {dict.forgotPassword.submit}
+            </Button>
+          </form>
+
+          <a
+            href={`/${lang}/login`}
+            className="mt-4 text-xs text-white/50 transition-colors hover:text-white/75"
           >
-            {dict.forgotPassword.submit}
-          </Button>
-        </form>
-
-        {/* Back to login */}
-        <a
-          href={`/${lang}/login`}
-          className="text-sx text-white/50 transition-colors hover:text-white/70"
-        >
-          {dict.forgotPassword.backToLogin}
-        </a>
-      </div>
+            {dict.forgotPassword.backToLogin}
+          </a>
+        </div>
+      )}
     </AuthLayout>
   );
 }

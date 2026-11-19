@@ -21,15 +21,15 @@ export function AuthTabs({
   return (
     <div className="flex flex-col">
       {/* Tabs */}
-      <div className="mb-6 flex justify-center gap-6 border-b border-white/10">
+      <div className="mb-6 flex justify-center gap-8 border-b border-white/10">
         <button
           type="button"
           onClick={() => setActiveTab("login")}
           className={cn(
-            "cursor-pointer pb-2 text-sx font-medium transition-colors",
+            "cursor-pointer pb-2.5 text-sm transition-colors -mb-[1px]",
             activeTab === "login"
-              ? "border-b-2 border-white text-white"
-              : "text-white/50 hover:text-white/70",
+              ? "border-b-2 border-[#7e73bf] font-medium text-white"
+              : "font-normal text-white/50 hover:text-white/75",
           )}
         >
           {loginLabel}
@@ -38,10 +38,10 @@ export function AuthTabs({
           type="button"
           onClick={() => setActiveTab("register")}
           className={cn(
-            "cursor-pointer pb-2 text-sx font-medium transition-colors",
+            "cursor-pointer pb-2.5 text-sm transition-colors -mb-[1px]",
             activeTab === "register"
-              ? "border-b-2 border-white text-white"
-              : "text-white/50 hover:text-white/70",
+              ? "border-b-2 border-[#7e73bf] font-medium text-white"
+              : "font-normal text-white/50 hover:text-white/75",
           )}
         >
           {registerLabel}

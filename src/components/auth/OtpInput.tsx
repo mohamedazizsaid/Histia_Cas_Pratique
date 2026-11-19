@@ -40,13 +40,11 @@ export function OtpInput({ length = 6, onComplete, disabled = false, error = fal
       const value = e.target.value.replace(/\D/g, "");
       if (!value) return;
 
-      // Take only the last character typed
       const digit = value.slice(-1);
       const newValues = [...values];
       newValues[index] = digit;
       setValues(newValues);
 
-      // Move to next input
       if (index < length - 1) {
         focusInput(index + 1);
       }
@@ -60,11 +58,9 @@ export function OtpInput({ length = 6, onComplete, disabled = false, error = fal
         e.preventDefault();
         const newValues = [...values];
         if (values[index]) {
-          // Clear current
           newValues[index] = "";
           setValues(newValues);
         } else if (index > 0) {
-          // Move back and clear previous
           newValues[index - 1] = "";
           setValues(newValues);
           focusInput(index - 1);
@@ -92,7 +88,6 @@ export function OtpInput({ length = 6, onComplete, disabled = false, error = fal
       }
       setValues(newValues);
 
-      // Focus the input after the last pasted digit, or the last one
       const nextIndex = Math.min(pasted.length, length - 1);
       focusInput(nextIndex);
     },
@@ -100,7 +95,7 @@ export function OtpInput({ length = 6, onComplete, disabled = false, error = fal
   );
 
   return (
-    <div className="flex justify-center gap-2">
+    <div className="flex justify-center gap-2.5">
       {Array.from({ length }).map((_, index) => (
         <input
           key={index}
@@ -110,17 +105,18 @@ export function OtpInput({ length = 6, onComplete, disabled = false, error = fal
           autoComplete="one-time-code"
           maxLength={1}
           value={values[index]}
+          placeholder="0"
           disabled={disabled}
           onChange={(e) => handleChange(index, e)}
           onKeyDown={(e) => handleKeyDown(index, e)}
           onPaste={handlePaste}
           onFocus={(e) => e.target.select()}
           className={cn(
-            "flex size-14 items-center justify-center rounded-sm border bg-black/10 text-center text-m font-semibold text-white outline-none transition-colors",
+            "flex h-15 w-11 sm:w-12 items-center justify-center rounded-lg border bg-white/[0.04] text-center text-xl font-semibold text-white outline-none transition-all placeholder:text-white/20",
             error
-              ? "border-danger"
-              : "border-white/40 focus:border-white/80",
-            disabled && "opacity-50",
+              ? "border-danger focus:border-danger"
+              : "border-white/20 hover:border-white/30 focus:border-white/50 focus:bg-white/[0.07]",
+            disabled && "opacity-50 cursor-not-allowed",
           )}
           aria-label={`Digit ${index + 1}`}
         />

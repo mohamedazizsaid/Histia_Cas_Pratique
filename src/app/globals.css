@@ -12,8 +12,10 @@
   body {
     font-family: var(--font-inter), Inter, system-ui, sans-serif;
     color: #fff;
-    background: var(--app-background);
-    letter-spacing: -0.02em;
+    background: radial-gradient(ellipse 70% 50% at 50% 12%, #423574 0%, #201944 48%, #130f28 100%), #130f28;
+    background-attachment: fixed;
+    letter-spacing: -0.015em;
+    min-height: 100vh;
   }
 }
 

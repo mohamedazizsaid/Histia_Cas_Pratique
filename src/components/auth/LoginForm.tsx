@@ -84,63 +84,62 @@ export function LoginForm({ lang, dict, errors: errorMessages }: LoginFormProps)
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3.5">
       {/* Server error */}
       {serverError && (
-        <div className="rounded-sm bg-danger/10 px-4 py-2.5 text-sx text-danger">
+        <div className="rounded-lg border border-danger/30 bg-danger/10 px-3.5 py-2.5 text-center text-xs text-danger">
           {serverError}
         </div>
       )}
 
       {/* Email */}
-      <Input
-        type="email"
-        placeholder={dict.email}
-        className="rounded-sm border border-white/40 bg-black/10 px-4 py-2.5"
-        inputClassName="h-7 text-lg placeholder:text-white/40"
-        {...register("email")}
-        aria-invalid={!!errors.email}
-      />
-      {errors.email && (
-        <p className="text-xs text-danger">{errorMessages.INVALID_EMAIL}</p>
-      )}
+      <div>
+        <Input
+          type="email"
+          placeholder={dict.email}
+          {...register("email")}
+          isError={!!errors.email}
+        />
+        {errors.email && (
+          <p className="mt-1 text-xs text-danger">{errorMessages.INVALID_EMAIL}</p>
+        )}
+      </div>
 
       {/* Password */}
       <PasswordInput
-        label={dict.password}
+        placeholder={dict.password}
         visibilityLabels={{ show: dict.showPassword, hide: dict.hidePassword }}
         {...register("password")}
         errorMessage={errors.password ? errorMessages.REQUIRED_FIELD : undefined}
       />
 
-      {/* Forgot password */}
-      <div className="flex justify-end">
+      {/* Forgot password — aligned left to match Figma Image 7 */}
+      <div className="flex justify-start pt-0.5">
         <a
           href={`/${lang}/forgot-password`}
-          className="text-xs-plus text-white/50 transition-colors hover:text-white/70"
+          className="text-xs text-white/50 transition-colors hover:text-white/75"
         >
           {dict.forgotPassword}
         </a>
       </div>
 
-      {/* Submit */}
+      {/* Submit button */}
       <Button
         type="submit"
         variant="primary"
         size="lg"
         alignment="center"
-        textSize="base"
         isLoading={isLoading}
-        className="mt-2 w-full"
+        className="mt-2 h-11 w-full rounded-lg text-sm font-medium"
       >
         {dict.signIn}
       </Button>
 
       {/* Footer */}
-      <div className="mt-2 flex justify-center gap-2 text-xs text-white/40">
-        <span className="cursor-pointer hover:text-white/60">{dict.terms}</span>
+      <div className="mt-4 flex items-center justify-center gap-2 text-xs text-white/40">
+        <span className="cursor-pointer transition-colors hover:text-white/60">{dict.terms}</span>
         <span>|</span>
-        <span className="cursor-pointer hover:text-white/60">{dict.privacy}</span>
+        <span className="cursor-pointer transition-colors hover:text-white/60">{dict.privacy}</span>
       </div>
     </form>
   );

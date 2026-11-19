@@ -21,7 +21,7 @@
     "title": "Confirm your identity",
     "totpDescription": "Enter the six-digit code displayed in your authentication app.",
     "emailDescription": "Enter the six-digit code sent to your account's email address. If it expires, request a new code.",
-    "bothDescription": "Enter the six-digit code displayed in your authentication app.",
+    "bothDescription": "Enter the six-digit code sent to your account's email address, or the code displayed in your authentication app.",
     "sendEmailCode": "Send a code by email",
     "resendCode": "Resend code",
     "useRecoveryCode": "Use a recovery code",

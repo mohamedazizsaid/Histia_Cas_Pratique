@@ -21,16 +21,19 @@ interface AuthLayoutProps {
   statusLabels: Record<string, string>;
 }
 
-// Positions for background cards — carefully placed to match Figma
-const cardPositions = [
-  { top: "5%", left: "-8%", rotate: "-6deg", opacity: 0.4, scale: 0.85 },
-  { top: "25%", left: "-5%", rotate: "-3deg", opacity: 0.35, scale: 0.8 },
-  { top: "55%", left: "-6%", rotate: "-4deg", opacity: 0.3, scale: 0.82 },
-  { top: "75%", left: "-4%", rotate: "-2deg", opacity: 0.25, scale: 0.78 },
-  { top: "3%", right: "-5%", rotate: "4deg", opacity: 0.4, scale: 0.85 },
-  { top: "28%", right: "-3%", rotate: "3deg", opacity: 0.35, scale: 0.82 },
-  { top: "53%", right: "-4%", rotate: "5deg", opacity: 0.3, scale: 0.8 },
-  { top: "78%", right: "-6%", rotate: "2deg", opacity: 0.25, scale: 0.78 },
+// Background card fleet placement — matching Figma's 2 columns (left & right)
+const leftCardPositions = [
+  { top: "3%", opacity: 0.35 },
+  { top: "27%", opacity: 0.32 },
+  { top: "51%", opacity: 0.28 },
+  { top: "75%", opacity: 0.24 },
+];
+
+const rightCardPositions = [
+  { top: "3%", opacity: 0.35 },
+  { top: "27%", opacity: 0.32 },
+  { top: "51%", opacity: 0.28 },
+  { top: "75%", opacity: 0.24 },
 ];
 
 export function AuthLayout({
@@ -51,21 +54,25 @@ export function AuthLayout({
     status: c.status,
   }));
 
+  // Split into left and right columns
+  const leftCompanies = localizedCompanies.slice(0, 4);
+  const rightCompanies = localizedCompanies.slice(4, 8);
+
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      {/* Background cards */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        {localizedCompanies.map((company, i) => {
-          const pos = cardPositions[i % cardPositions.length];
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-8">
+      {/* Background fleet overlay — Left Column */}
+      <div
+        className="pointer-events-none absolute inset-y-0 left-[-40px] hidden w-[360px] xl:block 2xl:left-6"
+        aria-hidden="true"
+      >
+        {leftCompanies.map((company, i) => {
+          const pos = leftCardPositions[i % leftCardPositions.length];
           return (
             <div
-              key={company.name}
-              className="absolute"
+              key={`left-${company.name}-${i}`}
+              className="absolute left-0 transition-opacity"
               style={{
                 top: pos.top,
-                left: pos.left,
-                right: pos.right,
-                transform: `rotate(${pos.rotate}) scale(${pos.scale})`,
                 opacity: pos.opacity,
               }}
             >
@@ -79,10 +86,36 @@ export function AuthLayout({
         })}
       </div>
 
-      {/* Center card */}
-      <div className="relative z-10 flex w-full max-w-[28rem] flex-col items-center px-4">
-        <StolosLogo className="mb-6 h-16 w-16" />
-        <div className="glassmorphism w-full rounded-l p-8">
+      {/* Background fleet overlay — Right Column */}
+      <div
+        className="pointer-events-none absolute inset-y-0 right-[-40px] hidden w-[360px] xl:block 2xl:right-6"
+        aria-hidden="true"
+      >
+        {rightCompanies.map((company, i) => {
+          const pos = rightCardPositions[i % rightCardPositions.length];
+          return (
+            <div
+              key={`right-${company.name}-${i}`}
+              className="absolute right-0 transition-opacity"
+              style={{
+                top: pos.top,
+                opacity: pos.opacity,
+              }}
+            >
+              <CompanyCard
+                company={company}
+                sectorLabels={sectorLabels}
+                statusLabels={statusLabels}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Center Auth Card */}
+      <div className="relative z-10 flex w-full max-w-[430px] flex-col items-center">
+        <StolosLogo className="mb-6 h-20 w-20 shrink-0 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]" />
+        <div className="w-full rounded-2xl border border-white/[0.08] bg-[#18142c]/85 p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)] backdrop-blur-xl">
           {children}
         </div>
       </div>

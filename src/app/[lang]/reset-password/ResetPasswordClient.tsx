@@ -57,7 +57,6 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
     resolver: zodResolver(schema),
   });
 
-  // If no token, show error
   if (!token) {
     return (
       <AuthLayout
@@ -65,16 +64,16 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
         sectorLabels={dict.sectors}
         statusLabels={dict.companyStatus}
       >
-        <div className="flex flex-col items-center gap-6">
-          <h2 className="text-center text-m font-semibold">
+        <div className="flex flex-col items-center">
+          <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
             {dict.resetPassword.title}
-          </h2>
-          <p className="text-center text-sx text-danger">
+          </h1>
+          <p className="mb-6 text-center text-xs text-danger">
             {dict.errors.INVALID_TOKEN}
           </p>
           <a
             href={`/${lang}/login`}
-            className="text-sx text-white/50 transition-colors hover:text-white/70"
+            className="text-xs text-white/50 transition-colors hover:text-white/75"
           >
             {dict.resetPassword.backToLogin}
           </a>
@@ -90,16 +89,21 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
         sectorLabels={dict.sectors}
         statusLabels={dict.companyStatus}
       >
-        <div className="flex flex-col items-center gap-6">
-          <h2 className="text-center text-m font-semibold">✓</h2>
-          <p className="text-center text-sx text-white/60">
+        <div className="flex flex-col items-center">
+          <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-success-500/20 text-success">
+            ✓
+          </div>
+          <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
+            {dict.resetPassword.title}
+          </h1>
+          <p className="mb-6 text-center text-sm text-white/60">
             {lang === "fr"
               ? "Votre mot de passe a été réinitialisé avec succès."
               : "Your password has been reset successfully."}
           </p>
           <a
             href={`/${lang}/login`}
-            className="text-sx font-medium text-primary transition-colors hover:text-white"
+            className="text-xs text-white/50 transition-colors hover:text-white/75"
           >
             {dict.resetPassword.backToLogin}
           </a>
@@ -119,9 +123,9 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
       });
 
       if (result.error) {
-        const code = result.error.code;
-        if (code && code in dict.errors) {
-          setServerError(dict.errors[code]);
+        const errCode = result.error.code;
+        if (errCode && errCode in dict.errors) {
+          setServerError(dict.errors[errCode]);
         } else {
           setServerError(result.error.message ?? "An error occurred");
         }
@@ -129,6 +133,9 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
       }
 
       setSuccess(true);
+      setTimeout(() => {
+        router.push(`/${lang}/login`);
+      }, 2000);
     } catch {
       setServerError("An unexpected error occurred");
     } finally {
@@ -142,38 +149,38 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
       sectorLabels={dict.sectors}
       statusLabels={dict.companyStatus}
     >
-      <div className="flex flex-col items-center gap-6">
-        <h2 className="text-center text-m font-semibold">
+      <div className="flex flex-col items-center">
+        <h1 className="mb-2 text-center text-xl font-bold tracking-tight text-white">
           {dict.resetPassword.title}
-        </h2>
-        <p className="text-center text-sx text-white/60">
+        </h1>
+
+        <p className="mb-6 max-w-xs text-center text-sm leading-relaxed text-white/50">
           {dict.resetPassword.description}
         </p>
 
         {serverError && (
-          <div className="w-full rounded-sm bg-danger/10 px-4 py-2.5 text-sx text-danger">
+          <div className="mb-4 w-full rounded-lg border border-danger/30 bg-danger/10 px-3.5 py-2.5 text-center text-xs text-danger">
             {serverError}
           </div>
         )}
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex w-full flex-col gap-4"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full flex-col gap-3.5">
           <PasswordInput
-            label={dict.resetPassword.newPassword}
+            placeholder={dict.resetPassword.newPassword}
             visibilityLabels={{
               show: dict.auth.showPassword,
               hide: dict.auth.hidePassword,
             }}
             {...register("password")}
             errorMessage={
-              errors.password ? dict.errors.PASSWORD_TOO_SHORT : undefined
+              errors.password
+                ? dict.errors.PASSWORD_TOO_SHORT
+                : undefined
             }
           />
 
           <PasswordInput
-            label={dict.resetPassword.confirmPassword}
+            placeholder={dict.resetPassword.confirmPassword}
             visibilityLabels={{
               show: dict.auth.showPassword,
               hide: dict.auth.hidePassword,
@@ -187,9 +194,8 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
             variant="primary"
             size="lg"
             alignment="center"
-            textSize="base"
             isLoading={isLoading}
-            className="w-full"
+            className="mt-2 h-11 w-full rounded-lg text-sm font-medium"
           >
             {dict.resetPassword.submit}
           </Button>
@@ -197,7 +203,7 @@ export function ResetPasswordClient({ lang, dict }: ResetPasswordClientProps) {
 
         <a
           href={`/${lang}/login`}
-          className="text-sx text-white/50 transition-colors hover:text-white/70"
+          className="mt-4 text-xs text-white/50 transition-colors hover:text-white/75"
         >
           {dict.resetPassword.backToLogin}
         </a>

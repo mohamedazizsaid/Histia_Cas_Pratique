@@ -36,27 +36,26 @@ export function DashboardClient({
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="glassmorphism flex w-full max-w-[28rem] flex-col items-center gap-6 rounded-l p-8">
-        <div className="flex size-16 items-center justify-center rounded-full bg-primary-400 text-m font-bold text-white">
+    <div className="flex min-h-screen items-center justify-center px-4 py-8">
+      <div className="flex w-full max-w-[430px] flex-col items-center gap-5 rounded-2xl border border-white/[0.08] bg-[#18142c]/85 p-8 shadow-[0_25px_60px_rgba(0,0,0,0.65)] backdrop-blur-xl">
+        <div className="flex size-16 items-center justify-center rounded-full bg-[#5e4fb0] text-xl font-bold text-white shadow-inner">
           {name.charAt(0).toUpperCase()}
         </div>
 
-        <h1 className="text-m font-semibold">{dict.title}</h1>
+        <h1 className="text-xl font-bold tracking-tight text-white">{dict.title}</h1>
 
-        <p className="text-center text-sx text-white/60">
-          {dict.welcome}
-        </p>
-        <p className="text-s font-medium text-primary">{email}</p>
+        <div className="text-center">
+          <p className="text-sm text-white/50">{dict.welcome}</p>
+          <p className="mt-1 text-sm font-medium text-primary">{email}</p>
+        </div>
 
         <Button
           variant="primary"
           size="lg"
           alignment="center"
-          textSize="base"
           isLoading={isLoading}
           onClick={handleSignOut}
-          className="mt-4 w-full"
+          className="mt-4 h-11 w-full rounded-lg text-sm font-medium"
         >
           {dict.signOut}
         </Button>

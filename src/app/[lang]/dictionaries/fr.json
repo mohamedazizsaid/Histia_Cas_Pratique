@@ -21,7 +21,7 @@
     "title": "Confirmez votre identité",
     "totpDescription": "Saisissez le code à six chiffres affiché dans votre application d'authentification.",
     "emailDescription": "Saisissez le code à six chiffres envoyé à l'adresse courriel de votre compte. S'il expire, demandez un nouveau code.",
-    "bothDescription": "Saisissez le code à six chiffres affiché dans votre application d'authentification.",
+    "bothDescription": "Saisissez le code à six chiffres envoyé à l'adresse courriel de votre compte, ou le code affiché dans votre application d'authentification.",
     "sendEmailCode": "Envoyer un code par courriel",
     "resendCode": "Renvoyer un code",
     "useRecoveryCode": "Utiliser un code de récupération",

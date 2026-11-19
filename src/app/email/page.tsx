@@ -1,66 +1,57 @@
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { StolosIconMinimal } from "@/components/layout/StolosLogo";
 
 // The password-reset email, visible at /email as required by the spec.
-// This page lives outside [lang] since it simulates an email client.
+// Matches Figma Image 1 exactly.
 
 async function EmailContent() {
   await connection();
 
-  // Get the latest password reset link
   const latestReset = await prisma.devMail.findFirst({
     where: { kind: "PASSWORD_RESET" },
     orderBy: { createdAt: "desc" },
   });
 
-  const resetUrl = latestReset?.content ?? "#";
-  const recipientEmail = latestReset?.to ?? "user@example.com";
+  const resetUrl =
+    latestReset?.content ?? "https://app.example.com/reset-password?token=preview";
 
   return (
-    <div className="mx-auto flex min-h-screen items-center justify-center p-8">
-      <div
-        className="w-full max-w-[32rem] overflow-hidden rounded-l"
-        style={{ background: "linear-gradient(180deg, #1e1a3a 0%, #2d2654 100%)" }}
-      >
-        {/* Header with logo */}
-        <div className="flex flex-col items-center gap-4 px-8 pt-10 pb-6">
-          <div className="flex items-center gap-2">
-            <svg
-              className="h-8 w-8"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M32 24c-5.523 0-10 4.477-10 10s4.477 10 10 10"
-                stroke="white"
-                strokeWidth="4"
-                strokeLinecap="round"
-                fill="none"
-              />
-              <circle cx="32" cy="34" r="3" fill="white" />
-            </svg>
-            <span className="text-sm font-semibold text-white">Stolos</span>
-          </div>
+    <div className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
+      {/* Header with Stolos logo and text matching Image 1 */}
+      <div className="mb-6 flex items-center gap-2">
+        <StolosIconMinimal className="size-6 text-white" />
+        <span className="text-base font-semibold tracking-tight text-white">
+          Stolos
+        </span>
+      </div>
+
+      {/* Main Email Card */}
+      <div className="relative w-full max-w-[460px] overflow-hidden rounded-2xl border border-white/10 bg-[#161327] p-8 shadow-2xl">
+        {/* Background watermark Stolos mark */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center opacity-[0.04]"
+          aria-hidden="true"
+        >
+          <StolosIconMinimal className="size-64" />
         </div>
 
-        {/* Content */}
-        <div className="flex flex-col items-center gap-6 px-8 pb-10">
-          <h1 className="text-center text-m font-semibold text-white">
+        <div className="relative z-10 flex flex-col items-center">
+          <h1 className="mb-6 text-center text-xl font-bold tracking-tight text-white">
             Réinitialisez votre mot de passe
           </h1>
 
-          {/* CTA Button */}
+          {/* Centered CTA button matching Image 1 */}
           <a
             href={resetUrl}
-            className="inline-block w-full rounded-md bg-primary-400 px-8 py-3 text-center text-s font-medium text-white transition-colors hover:bg-primary-300"
+            className="mb-8 inline-flex items-center justify-center rounded-lg bg-[#5e4fb0] px-6 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#6c5dbf]"
           >
             Choisir un nouveau mot de passe
           </a>
 
-          {/* Body text */}
-          <div className="flex flex-col gap-4 text-sx leading-relaxed text-white/70">
+          {/* Body text paragraphs */}
+          <div className="mb-6 max-w-sm space-y-3 text-center text-xs leading-relaxed text-white/60">
             <p>
               Nous avons reçu une demande de réinitialisation du mot de passe de
               votre compte Stolos. Ce lien expire dans une heure.
@@ -71,26 +62,26 @@ async function EmailContent() {
             </p>
           </div>
 
-          {/* Raw URL */}
-          <div className="w-full rounded-sm bg-black/20 px-4 py-3">
+          {/* Direct link instructions */}
+          <div className="max-w-sm text-center">
             <p className="text-xs text-white/40">
               Ou copiez ce lien dans votre navigateur :
             </p>
-            <p className="mt-1 break-all text-xs text-primary">
+            <a
+              href={resetUrl}
+              className="mt-1 block break-all text-xs text-white/50 underline transition-colors hover:text-white/70"
+            >
               {resetUrl}
-            </p>
+            </a>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="border-t border-white/10 px-8 py-4">
-          <p className="text-center text-xs text-white/40">
-            Ceci est un message automatique de{" "}
-            <span className="text-primary">Histia</span>. Merci de ne pas y
-            répondre.
-          </p>
-        </div>
       </div>
+
+      {/* Automated message footer outside card matching Image 1 */}
+      <p className="mt-6 text-center text-xs text-white/40">
+        Ceci est un message automatique de{" "}
+        <span className="underline">Histia</span>. Merci de ne pas y répondre.
+      </p>
     </div>
   );
 }
@@ -99,8 +90,8 @@ export default function EmailPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <p className="text-white/60">Chargement…</p>
+        <div className="flex min-h-screen items-center justify-center text-white/40">
+          Chargement...
         </div>
       }
     >
